@@ -10,7 +10,8 @@ builder.Services.AddControllersWithViews()
                 .AddMvcOptions(option =>
                 {
                     option.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
-                });
+                })
+                .AddApplicationPart(typeof(SV22T1080034.Admin.Controllers.HomeController).Assembly); // Only load Admin controllers
 
 // Configure Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

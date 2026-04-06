@@ -125,7 +125,7 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr data-product-id="@item.ProductID" data-sale-price="@item.SalePrice">
+                                    <tr data-product-id="@item.ProductID" data-price="@item.Price">
                                         <td class="text-center">
                                             <input type="checkbox" class="item-checkbox">
                                         </td>
@@ -144,7 +144,7 @@
                                         </td>
 
                                         <td class="text-center text-primary fw-bold">
-                                            @item.SalePrice.ToString("N0") ₫
+                                            @item.Price.ToString("N0") ₫
                                         </td>
 
                                         <td class="text-center">

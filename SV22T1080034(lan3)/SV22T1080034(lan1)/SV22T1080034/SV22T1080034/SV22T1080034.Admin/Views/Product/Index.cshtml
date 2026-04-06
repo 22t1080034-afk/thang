@@ -1,0 +1,104 @@
+@using SV22T1080034.DomainModels.Catalog
+@model ProductSearchInput
+
+@{
+    ViewBag.Title = "Quản lý Mặt hàng";
+}
+
+@section PageToolBar {
+    <a href="~/Product/Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i>
+        Bổ sung
+    </a>
+}
+
+<div class="card mb-4 shadow-sm border-0">
+    <div class="card-header bg-primary text-white">
+        <h6 class="mb-0"><i class="bi bi-funnel me-2"></i>Tìm kiếm & Lọc</h6>
+    </div>
+    <div class="card-body">
+
+        <form id="formSearch"
+              method="get"
+              action="~/Product/Search"
+              data-target="searchResult"
+              onsubmit="paginationSearch(event, this, 1)">
+
+            <input type="hidden" asp-for="PageSize" />
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold text-secondary">
+                        <i class="bi bi-tags me-1"></i>Loại hàng
+                    </label>
+                    <select class="form-select" asp-for="CategoryID" asp-items="await SelectListHelper.Categories()">
+                        <option value="">-- Tất cả loại hàng --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold text-secondary">
+                        <i class="bi bi-building me-1"></i>Nhà cung cấp
+                    </label>
+                    <select class="form-select" asp-for="SupplierID" asp-items="await SelectListHelper.Suppliers()">
+                        <option value="">-- Tất cả nhà cung cấp --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold text-secondary">
+                        <i class="bi bi-currency-dollar me-1"></i>Khoảng giá (VNĐ)
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light">Từ</span>
+                        <input asp-for="MinPrice"
+                               class="form-control"
+                               placeholder="0"
+                               type="number"
+                               min="0"
+                               step="1000" />
+                        <span class="input-group-text bg-light">Đến</span>
+                        <input asp-for="MaxPrice"
+                               class="form-control"
+                               placeholder="10,000,000"
+                               type="number"
+                               min="0"
+                               step="1000" />
+                    </div>
+                    <small class="text-muted">Để trống nếu không giới hạn</small>
+                </div>
+
+                <div class="col-md-5">
+                    <label class="form-label fw-semibold text-secondary">
+                        <i class="bi bi-search me-1"></i>Tên mặt hàng
+                    </label>
+                    <div class="input-group">
+                        <input asp-for="SearchValue"
+                               class="form-control"
+                               placeholder="Nhập tên sản phẩm..."
+                               type="search" />
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-search"></i> Tìm kiếm
+                        </button>
+                        <a href="~/Product/Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-clockwise"></i> Làm mới
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div id="searchResult"></div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            paginationSearch(null, document.getElementById("formSearch"), @Model.Page);
+        });
+    </script>
+}

@@ -9,101 +9,101 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = SV22T1080034.Shop
 build_property.RootNamespace = SV22T1080034.Shop
-build_property.ProjectDir = D:\LTUDWeb\SV22T1080034(1)\SV22T1080034(lan3)\SV22T1080034(lan1)\SV22T1080034\SV22T1080034.Shop\
+build_property.ProjectDir = D:\LTUDWeb\thang\SV22T1080034(lan3)\SV22T1080034(lan1)\SV22T1080034\SV22T1080034.Shop\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\LTUDWeb\SV22T1080034(1)\SV22T1080034(lan3)\SV22T1080034(lan1)\SV22T1080034\SV22T1080034.Shop
+build_property.MSBuildProjectDirectory = D:\LTUDWeb\thang\SV22T1080034(lan3)\SV22T1080034(lan1)\SV22T1080034\SV22T1080034.Shop
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Account/Login.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Account/Profile.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Account/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Account/Register.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Cart/Index.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Cart/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Cart/_CartModal.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Cart/_CartModal.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxfQ2FydE1vZGFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Category/_CategoryCards.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Category/_CategoryCards.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcX0NhdGVnb3J5Q2FyZHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Home/About.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Home/About.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBYm91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Home/Contact.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Home/Contact.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb250YWN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Home/Index.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Home/Privacy.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Order/Details.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Order/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Order/History.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Order/History.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcSGlzdG9yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Order/Tracking.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Order/Tracking.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcVHJhY2tpbmcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Order/_OrderStatusBadge.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Order/_OrderStatusBadge.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcX09yZGVyU3RhdHVzQmFkZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Product/Details.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Product/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Product/Index.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Product/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Product/_RelatedProducts.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Product/_RelatedProducts.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxfUmVsYXRlZFByb2R1Y3RzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Shared/Error.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/_ViewImports.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/_ViewStart.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/LTUDWeb/SV22T1080034(1)/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Shared/_Layout.cshtml]
+[D:/LTUDWeb/thang/SV22T1080034(lan3)/SV22T1080034(lan1)/SV22T1080034/SV22T1080034.Shop/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-exj6u1eh8d

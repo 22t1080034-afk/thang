@@ -140,7 +140,7 @@ namespace SV22T1080034.Shop.Controllers
             {
                 CustomerID = customerID,
                 Page = 1,
-                PageSize = 100
+                PageSize = 20
             };
 
             var result = await SalesDataService.ListOrdersAsync(input);

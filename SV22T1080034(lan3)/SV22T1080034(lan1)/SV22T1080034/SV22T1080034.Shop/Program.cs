@@ -35,7 +35,7 @@ builder.Services.AddScoped<INewsletterService, NewsletterService>();
 // Add Session
 builder.Services.AddSession(option =>
 {
-    option.IdleTimeout = TimeSpan.FromHours(2);
+    option.IdleTimeout = TimeSpan.FromDays(7);
     option.Cookie.HttpOnly = true;
     option.Cookie.IsEssential = true;
 });

@@ -21,7 +21,7 @@ namespace SV22T1080034.Shop.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var categoryInput = new PaginationSearchInput() { Page = 1, PageSize = 1000 };
+            var categoryInput = new PaginationSearchInput() { Page = 1, PageSize = 100 };
             var categories = await CatalogDataService.ListCategoriesAsync(categoryInput);
 
             var randomInput = new ProductSearchInput()

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SV22T1080034.BusinessLayers\SV22T1080034.BusinessLayers.csproj" />
+    <ProjectReference Include="..\SV22T1080034.DataLayers\SV22T1080034.DataLayers.csproj" />
+    <ProjectReference Include="..\SV22T1080034.DomainModels\SV22T1080034.DomainModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bootstrap" Version="5.3.0" />
+    <PackageReference Include="Bootstrap.Icons" Version="1.10.0" />
+    <PackageReference Include="AOS" Version="2.3.1" />
+    <PackageReference Include="Microsoft.International.Converters.PinYinConverter" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>

@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace SV22T1080034.Shop.Controllers
 {
-    [Authorize]
+    // Cho phép guest user thêm vào giỏ hàng
     public class CartController : Controller
     {
         private const string CART_SESSION_KEY = "CartItems";
@@ -25,6 +25,7 @@ namespace SV22T1080034.Shop.Controllers
             HttpContext.Session.SetObject(CART_SESSION_KEY, cart);
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             var cart = GetCartFromSession();
@@ -34,6 +35,7 @@ namespace SV22T1080034.Shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Add(int productID, int quantity, decimal salePrice)
         {
             try
@@ -76,7 +78,7 @@ namespace SV22T1080034.Shop.Controllers
                         ProductName = product.ProductName,
                         Photo = product.Photo,
                         Price = product.Price,
-                        SalePrice = product.Price, // SỬA: Dùng giá từ DB, không dùng từ form (chống gian lận)
+                        
                         Quantity = quantity,
                         Unit = product.Unit
                     });
@@ -98,6 +100,7 @@ namespace SV22T1080034.Shop.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Count()
         {
             var cart = GetCartFromSession();
@@ -106,6 +109,7 @@ namespace SV22T1080034.Shop.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetCartModal()
         {
             var cart = GetCartFromSession();
@@ -114,6 +118,7 @@ namespace SV22T1080034.Shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Remove(int productID)
         {
             var cart = GetCartFromSession();
@@ -129,6 +134,7 @@ namespace SV22T1080034.Shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Update(int productID, int quantity)
         {
             try
@@ -169,6 +175,7 @@ namespace SV22T1080034.Shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Clear()
         {
             HttpContext.Session.Remove(CART_SESSION_KEY);
@@ -178,6 +185,7 @@ namespace SV22T1080034.Shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Checkout(string deliveryProvince, string deliveryAddress, string selectedProductIds)
         {
             var cart = GetCartFromSession();
@@ -194,9 +202,9 @@ namespace SV22T1080034.Shop.Controllers
             }
             else
             {
-                var ids = selectedProductIds.Split(',')
+                var ids = selectedProductIds.Split(',', StringSplitOptions.RemoveEmptyEntries)
                     .Select(id => {
-                        int.TryParse(id, out int result);
+                        int.TryParse(id.Trim(), out int result);
                         return result;
                     })
                     .Where(id => id > 0)
@@ -228,7 +236,7 @@ namespace SV22T1080034.Shop.Controllers
                     ProductID = c.ProductID,
                     ProductName = c.ProductName,
                     Quantity = c.Quantity,
-                    SalePrice = c.SalePrice
+                    SalePrice = c.Price
                 }).ToList();
 
                 int orderID = await SalesDataService.AddOrderAsync(

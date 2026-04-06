@@ -1,0 +1,264 @@
+@model SV22T1080034.DomainModels.Catalog.Product
+
+@{
+    ViewBag.Title = Model.ProductID == 0 ? "Bổ sung mặt hàng" : "Cập nhật mặt hàng";
+}
+
+@section PageToolBar {
+    <a href="~/Product/Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i>
+        Bổ sung
+    </a>
+}
+
+@* Hiển thị thông báo *@
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>@TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>@TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h6 class="mb-0"><i class="bi bi-info-square me-2"></i>Thông tin mặt hàng</h6>
+            </div>
+            <div class="card-body">
+                <form asp-action="SaveData" asp-controller="Product" method="post" enctype="multipart/form-data">
+                    @Html.HiddenFor(m => m.ProductID)
+
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label fw-semibold">Tên mặt hàng <span class="text-danger">*</span></label>
+                            <input asp-for="ProductName" class="form-control" placeholder="Nhập tên mặt hàng" required />
+                            <span asp-validation-for="ProductName" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Đơn vị <span class="text-danger">*</span></label>
+                            <input asp-for="Unit" class="form-control" placeholder="ví dụ: cái, kg, hộp" required />
+                            <span asp-validation-for="Unit" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Giá <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">VNĐ</span>
+                                <input asp-for="Price" class="form-control" type="number" min="0" step="1000" required />
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Loại hàng <span class="text-danger">*</span></label>
+                            <select asp-for="CategoryID" class="form-select" asp-items="await SelectListHelper.Categories()" required>
+                                <option value="">-- Chọn loại hàng --</option>
+                            </select>
+                            <span asp-validation-for="CategoryID" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Nhà cung cấp <span class="text-danger">*</span></label>
+                            <select asp-for="SupplierID" class="form-select" asp-items="await SelectListHelper.Suppliers()" required>
+                                <option value="">-- Chọn nhà cung cấp --</option>
+                            </select>
+                            <span asp-validation-for="SupplierID" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Trạng thái</label>
+                            <div class="form-check form-switch mt-2">
+                                <input asp-for="IsSelling" class="form-check-input" type="checkbox" role="switch" id="isSellingSwitch" />
+                                <label class="form-check-label" for="isSellingSwitch">Đang bán</label>
+                            </div>
+                            <small class="text-muted">Tắt nếu ngừng bán sản phẩm này</small>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Mô tả</label>
+                            <textarea asp-for="ProductDescription" class="form-control" rows="4" placeholder="Mô tả chi tiết về sản phẩm..."></textarea>
+                            <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <div class="d-flex justify-content-between">
+                        <a href="~/Product/Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Quay lại
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i> Lưu thông tin
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        @* Phần ảnh sản phẩm *@
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-light">
+                <h6 class="mb-0"><i class="bi bi-image me-2"></i>Ảnh đại diện</h6>
+            </div>
+            <div class="card-body text-center">
+                @if (!string.IsNullOrEmpty(Model.Photo) && Model.Photo != "nophoto.png")
+                {
+                    <img src="~/images/products/@Model.Photo" alt="Ảnh sản phẩm" class="img-fluid rounded mb-3" style="max-height: 200px; object-fit: contain;" />
+                    <p class="text-muted small">@Model.Photo</p>
+                }
+                else
+                {
+                    <div class="border rounded d-flex align-items-center justify-content-center mb-3" style="height: 200px; background-color: #f8f9fa;">
+                        <span class="text-muted"><i class="bi bi-image" style="font-size: 3rem;"></i></span>
+                    </div>
+                    <p class="text-muted">Chưa có ảnh</p>
+                }
+            </div>
+        </div>
+
+        @* Upload ảnh mới *@
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h6 class="mb-0"><i class="bi bi-cloud-arrow-up me-2"></i>Tải ảnh lên</h6>
+            </div>
+            <div class="card-body">
+                <form asp-action="SavePhoto" asp-controller="Product" method="post" enctype="multipart/form-data">
+                    @Html.Hidden("id", Model.ProductID)
+                    <div class="mb-3">
+                        <label class="form-label">Chọn ảnh</label>
+                        <input type="file" name="uploadPhoto" class="form-control" accept="image/*" required />
+                        <small class="text-muted">Hỗ trợ: JPG, PNG, GIF (max 5MB)</small>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="bi bi-upload me-1"></i> Tải lên
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Phần thuộc tính (nếu có) *@
+@{
+    var attributes = ViewBag.Attributes as List<SV22T1080034.DomainModels.Catalog.ProductAttribute> ?? new List<SV22T1080034.DomainModels.Catalog.ProductAttribute>();
+}
+@if (attributes.Any())
+{
+    <div class="card shadow-sm mt-3">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <h6 class="mb-0"><i class="bi bi-list-check me-2"></i>Thuộc tính sản phẩm</h6>
+            <a href="~/Product/CreateAttribute/@Model.ProductID" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-plus"></i> Thêm thuộc tính
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tên thuộc tính</th>
+                            <th>Giá trị</th>
+                            <th style="width: 120px; text-align: center;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var attr in attributes)
+                        {
+                            <tr>
+                                <td>@attr.AttributeName</td>
+                                <td>@attr.AttributeValue</td>
+                                <td class="text-center">
+                                    <a href="~/Product/EditAttribute/@Model.ProductID?attributeId=@attr.AttributeID" class="btn btn-sm btn-outline-primary me-1">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="~/Product/DeleteAttribute/@Model.ProductID?attributeId=@attr.AttributeID" class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('Xóa thuộc tính này?');">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+@* Phần ảnh phụ (Product Photos) *@
+@{
+    var photos = ViewBag.Photos as List<SV22T1080034.DomainModels.Catalog.ProductPhoto> ?? new List<SV22T1080034.DomainModels.Catalog.ProductPhoto>();
+}
+@if (photos.Any())
+{
+    <div class="card shadow-sm mt-3">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <h6 class="mb-0"><i class="bi bi-images me-2"></i>Thư viện ảnh (@photos.Count)</h6>
+            <a href="~/Product/CreatePhoto/@Model.ProductID" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-plus"></i> Thêm ảnh
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                @foreach (var photo in photos)
+                {
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card h-100 position-relative">
+                            @if (!string.IsNullOrEmpty(photo.Photo))
+                            {
+                                <img src="~/images/products/@photo.Photo" class="card-img-top" style="height: 150px; object-fit: cover;" alt="Ảnh phụ" />
+                            }
+                            else
+                            {
+                                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 150px;">
+                                    <span class="text-muted">No image</span>
+                                </div>
+                            }
+                            <div class="card-body p-2">
+                                <p class="card-text small mb-1">@photo.Description</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">@(photo.IsHidden ? "Ẩn" : "Hiện")</small>
+                                    <div>
+                                        <a href="~/Product/EditPhoto/@Model.ProductID?photoId=@photo.PhotoID" class="btn btn-sm btn-outline-primary me-1" title="Sửa">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a href="~/Product/DeletePhoto/@Model.ProductID?photoId=@photo.PhotoID"
+                                           class="btn btn-sm btn-outline-danger"
+                                           title="Xóa"
+                                           onclick="return confirm('Xóa ảnh này khỏi thư viện?');">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // Auto-dismiss alerts sau 5 giây
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(alert => {
+                new bootstrap.Alert(alert).close();
+            });
+        }, 5000);
+    </script>
+}

@@ -1,0 +1,131 @@
+@model SV22T1080034.DomainModels.Common.PagedResult<SV22T1080034.DomainModels.Catalog.Product>
+
+@if (Model == null || Model.DataItems == null || !Model.DataItems.Any())
+{
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle me-2"></i>Không tìm thấy sản phẩm nào phù hợp.
+    </div>
+    return;
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">
+            <i class="bi bi-box-seam me-2 text-primary"></i>Tổng cộng: <strong>@Model.RowCount</strong> sản phẩm
+        </span>
+        <span class="text-muted small">Hiển thị @((Model.Page - 1) * Model.PageSize + 1) - @(Math.Min(Model.Page * Model.PageSize, Model.RowCount)) sản phẩm</span>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 80px;">Mã SP</th>
+                        <th>Tên sản phẩm</th>
+                        <th style="width: 120px;">Giá</th>
+                        <th style="width: 100px;">Loại hàng</th>
+                        <th style="width: 120px;">Nhà cung cấp</th>
+                        <th style="width: 80px; text-align: center;">Ảnh</th>
+                        <th style="width: 100px; text-align: center;">Trạng thái</th>
+                        <th style="width: 150px; text-align: center;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.DataItems)
+                    {
+                        <tr>
+                            <td><span class="badge bg-secondary">@item.ProductID</span></td>
+                            <td class="fw-semibold">@item.ProductName</td>
+                            <td class="text-primary fw-bold">@item.Price.ToString("N0") ₫</td>
+                            <td><span class="badge bg-info text-dark">@item.CategoryName</span></td>
+                            <td>@item.SupplierName</td>
+                            <td class="text-center">
+                                @if (!string.IsNullOrEmpty(item.Photo))
+                                {
+                                    <img src="~/images/products/@item.Photo" alt="@item.ProductName"
+                                         style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted"><i class="bi bi-image" style="font-size: 1.5rem;"></i></span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (item.IsSelling)
+                                {
+                                    <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Đang bán</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i>Ngưng bán</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a href="~/Product/Edit/@item.ProductID" class="btn btn-sm btn-outline-primary me-1" title="Sửa">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="~/Product/Delete/@item.ProductID" class="btn btn-sm btn-outline-danger" title="Xóa" onclick="return confirm('Xóa sản phẩm này?');">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@* Phân trang *@
+@if (Model.TotalPages > 1)
+{
+    <nav aria-label="Page navigation" class="mt-3">
+        <ul class="pagination justify-content-center">
+            @if (Model.Page > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="javascript:void(0)" onclick="paginationSearch(null, document.getElementById('formSearch'), @(Model.Page - 1))">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+                </li>
+            }
+
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                if (i == 1 || i == Model.TotalPages || (i >= Model.Page - 1 && i <= Model.Page + 1))
+                {
+                    <li class="page-item @(i == Model.Page ? "active" : "")">
+                        <a class="page-link" href="javascript:void(0)" onclick="paginationSearch(null, document.getElementById('formSearch'), @i)">@i</a>
+                    </li>
+                }
+                else if (i == Model.Page - 2 || i == Model.Page + 2)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                }
+            }
+
+            @if (Model.Page < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="javascript:void(0)" onclick="paginationSearch(null, document.getElementById('formSearch'), @(Model.Page + 1))">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+                </li>
+            }
+        </ul>
+    </nav>
+}

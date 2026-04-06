@@ -285,14 +285,14 @@
             const price = this.getAttribute('data-price');
 
             const quantity = 1;
-            const salePrice = parseFloat(price.replace(/,/g, ''));
+            const priceValue = parseFloat(price.replace(/[,.]/g, ''));
             const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
 
             try {
                 const formData = new FormData();
                 formData.append('productID', productId);
                 formData.append('quantity', quantity);
-                formData.append('salePrice', salePrice);
+                formData.append('priceValue', priceValue);
                 if (token) formData.append('__RequestVerificationToken', token);
 
                 const response = await fetch('/Cart/Add', {

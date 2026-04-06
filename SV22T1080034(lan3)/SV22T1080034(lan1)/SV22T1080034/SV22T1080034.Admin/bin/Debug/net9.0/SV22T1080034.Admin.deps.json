@@ -11,8 +11,7 @@
           "Joson.Jiang.Master.NuGet": "1.0.0",
           "SV22T1080034.BusinessLayers": "1.0.0",
           "SV22T1080034.DataLayers": "1.0.0",
-          "SV22T1080034.DomainModels": "1.0.0",
-          "SV22T1080034.Shop": "1.0.0"
+          "SV22T1080034.DomainModels": "1.0.0"
         },
         "runtime": {
           "SV22T1080034.Admin.dll": {}
@@ -515,19 +514,6 @@
             "fileVersion": "1.0.0.0"
           }
         }
-      },
-      "SV22T1080034.Shop/1.0.0": {
-        "dependencies": {
-          "SV22T1080034.BusinessLayers": "1.0.0",
-          "SV22T1080034.DataLayers": "1.0.0",
-          "SV22T1080034.DomainModels": "1.0.0"
-        },
-        "runtime": {
-          "SV22T1080034.Shop.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
       }
     }
   },
@@ -835,11 +821,6 @@
       "sha512": ""
     },
     "SV22T1080034.DomainModels/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "SV22T1080034.Shop/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

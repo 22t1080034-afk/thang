@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\SV22T1080034.Admin.csproj": {}
+    "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\SV22T1080034.Admin.csproj": {}
   },
   "projects": {
-    "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\SV22T1080034.Admin.csproj": {
+    "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\SV22T1080034.Admin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\SV22T1080034.Admin.csproj",
+        "projectUniqueName": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\SV22T1080034.Admin.csproj",
         "projectName": "SV22T1080034.Admin",
-        "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\SV22T1080034.Admin.csproj",
+        "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\SV22T1080034.Admin.csproj",
         "packagesPath": "C:\\Users\\my computer\\.nuget\\packages\\",
-        "outputPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\obj\\",
+        "outputPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,17 +32,14 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj": {
-                "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj"
+              "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj": {
+                "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj"
               },
-              "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj": {
-                "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj"
+              "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj": {
+                "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj"
               },
-              "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj": {
-                "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj"
-              },
-              "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Shop\\SV22T1080034.Shop.csproj": {
-                "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Shop\\SV22T1080034.Shop.csproj"
+              "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj": {
+                "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj"
               }
             }
           }
@@ -91,14 +88,14 @@
         }
       }
     },
-    "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj": {
+    "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj",
+        "projectUniqueName": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj",
         "projectName": "SV22T1080034.BusinessLayers",
-        "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj",
+        "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj",
         "packagesPath": "C:\\Users\\my computer\\.nuget\\packages\\",
-        "outputPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\obj\\",
+        "outputPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -119,11 +116,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj": {
-                "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj"
+              "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj": {
+                "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj"
               },
-              "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj": {
-                "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj"
+              "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj": {
+                "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj"
               }
             }
           }
@@ -163,14 +160,14 @@
         }
       }
     },
-    "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj": {
+    "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj",
+        "projectUniqueName": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj",
         "projectName": "SV22T1080034.DataLayers",
-        "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj",
+        "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj",
         "packagesPath": "C:\\Users\\my computer\\.nuget\\packages\\",
-        "outputPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\obj\\",
+        "outputPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -191,8 +188,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj": {
-                "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj"
+              "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj": {
+                "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj"
               }
             }
           }
@@ -242,14 +239,14 @@
         }
       }
     },
-    "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj": {
+    "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj",
+        "projectUniqueName": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj",
         "projectName": "SV22T1080034.DomainModels",
-        "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj",
+        "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj",
         "packagesPath": "C:\\Users\\my computer\\.nuget\\packages\\",
-        "outputPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\obj\\",
+        "outputPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -299,84 +296,6 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Shop\\SV22T1080034.Shop.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Shop\\SV22T1080034.Shop.csproj",
-        "projectName": "SV22T1080034.Shop",
-        "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Shop\\SV22T1080034.Shop.csproj",
-        "packagesPath": "C:\\Users\\my computer\\.nuget\\packages\\",
-        "outputPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Shop\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\my computer\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net8.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
-            "projectReferences": {
-              "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj": {
-                "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.BusinessLayers\\SV22T1080034.BusinessLayers.csproj"
-              },
-              "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj": {
-                "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj"
-              },
-              "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj": {
-                "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.300"
-      },
-      "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

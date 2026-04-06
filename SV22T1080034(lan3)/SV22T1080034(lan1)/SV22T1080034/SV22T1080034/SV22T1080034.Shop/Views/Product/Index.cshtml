@@ -1,0 +1,276 @@
+@model SV22T1080034.DomainModels.Common.PagedResult<SV22T1080034.DomainModels.Catalog.Product>
+
+@{
+    ViewBag.Title = "Sản phẩm";
+}
+
+@* Anti-Forgery Token cho AJAX requests *@
+@Html.AntiForgeryToken()
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="get" action="~/Product" class="row g-3 align-items-end">
+                    <div class="col-md-3">
+                        <label class="form-label">Loại hàng</label>
+                        <select name="categoryID" class="form-select">
+                            <option value="">-- Tất cả --</option>
+                            @if (ViewBag.Categories != null)
+                            {
+                                foreach (var cat in ViewBag.Categories as List<SV22T1080034.DomainModels.Catalog.Category>)
+                                {
+                                    <option value="@cat.CategoryID" @(cat.CategoryID == ViewBag.CategoryID ? "selected" : "")>
+                                        @cat.CategoryName
+                                    </option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Khoảng giá (VNĐ)</label>
+                        <div class="input-group">
+                            <input type="number" name="minPrice" class="form-control" placeholder="Từ" value="@ViewBag.MinPrice" min="0" />
+                            <span class="input-group-text">-</span>
+                            <input type="number" name="maxPrice" class="form-control" placeholder="Đến" value="@ViewBag.MaxPrice" min="0" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Tìm kiếm</label>
+                        <div class="input-group">
+                            <input type="text" name="searchValue" class="form-control" placeholder="Tên sản phẩm..." value="@ViewBag.SearchValue" />
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-search"></i> Tìm kiếm
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Số lượng/trang</label>
+                        <select name="pageSize" class="form-select" onchange="this.form.submit()">
+                            <option value="12" @(ViewBag.PageSize == 12 ? "selected" : "")>12</option>
+                            <option value="24" @(ViewBag.PageSize == 24 ? "selected" : "")>24</option>
+                            <option value="36" @(ViewBag.PageSize == 36 ? "selected" : "")>36</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model == null || !Model.DataItems.Any())
+{
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle me-2"></i>Không tìm thấy sản phẩm nào.
+    </div>
+}
+else
+{
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+        @foreach (var product in Model.DataItems)
+        {
+            <div class="col">
+                <div class="card h-100 product-card">
+                    @if (!string.IsNullOrEmpty(product.Photo))
+                    {
+                        <img src="~/images/products/@product.Photo" class="card-img-top" alt="@product.ProductName"
+                             style="height: 200px; object-fit: cover;" />
+                    }
+                    else
+                    {
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <span class="text-muted"><i class="bi bi-image" style="font-size: 3rem;"></i></span>
+                        </div>
+                    }
+
+                    <div class="card-body">
+                        <h6 class="card-title">@product.ProductName</h6>
+                        <p class="text-danger fw-bold mb-2">@product.Price.ToString("N0") ₫</p>
+                        <p class="small text-muted mb-0">
+                            <i class="bi bi-tag me-1"></i>@product.CategoryName<br />
+                            <i class="bi bi-building me-1"></i>@product.SupplierName
+                        </p>
+                    </div>
+
+                    <div class="card-footer bg-white border-top-0">
+                        <button class="btn btn-primary w-100 add-to-cart-btn"
+                                data-product-id="@product.ProductID"
+                                data-product-name="@product.ProductName"
+                                data-price="@product.Price"
+                                onclick="addToCart(this)">
+                            <i class="bi bi-cart-plus me-1"></i> Thêm vào giỏ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @* Phân trang *@
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                @if (Model.Page > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="?page=@(Model.Page-1)&pageSize=@ViewBag.PageSize&searchValue=@ViewBag.SearchValue&categoryID=@ViewBag.CategoryID&minPrice=@ViewBag.MinPrice&maxPrice=@ViewBag.MaxPrice">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                }
+
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    if (i == 1 || i == Model.TotalPages || (i >= Model.Page - 1 && i <= Model.Page + 1))
+                    {
+                        <li class="page-item @(i == Model.Page ? "active" : "")">
+                            <a class="page-link" href="?page=@i&pageSize=@ViewBag.PageSize&searchValue=@ViewBag.SearchValue&categoryID=@ViewBag.CategoryID&minPrice=@ViewBag.MinPrice&maxPrice=@ViewBag.MaxPrice">@i</a>
+                        </li>
+                    }
+                    else if (i == Model.Page - 2 || i == Model.Page + 2)
+                    {
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    }
+                }
+
+                @if (Model.Page < Model.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="?page=@(Model.Page+1)&pageSize=@ViewBag.PageSize&searchValue=@ViewBag.SearchValue&categoryID=@ViewBag.CategoryID&minPrice=@ViewBag.MinPrice&maxPrice=@ViewBag.MaxPrice">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}
+
+@section Scripts {
+    <script>
+        // Hiển thị thông báo thành công tự động ẩn sau 5 giây
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('.alert-success, .alert-danger');
+            alerts.forEach(alert => new bootstrap.Alert(alert).close());
+        }, 5000);
+
+        // Nút thêm vào giỏ
+        async function addToCart(button) {
+            const productId = button.getAttribute('data-product-id');
+            const productName = button.getAttribute('data-product-name');
+            const priceStr = button.getAttribute('data-price');
+            const price = parseFloat(priceStr.replace(/,/g, '').replace(/\./g, ''));
+
+            // Disable button và hiển thị loading
+            button.disabled = true;
+            const originalHtml = button.innerHTML;
+            button.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Đang thêm...';
+
+            try {
+                // Lấy anti-forgery token
+                const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+                const token = tokenInput ? tokenInput.value : '';
+
+                const formData = new FormData();
+                formData.append('productID', productId);
+                formData.append('quantity', 1);
+                if (token) formData.append('__RequestVerificationToken', token);
+
+                const response = await fetch('/Cart/Add', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include' // Gửi cookies (session)
+                });
+
+                // Xử lý redirect nếu có (ví dụ: chưa login)
+                if (response.redirected) {
+                    window.location.href = response.url;
+                    return;
+                }
+
+                // Kiểm tra content-type trước khi parse JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Server trả về không phải JSON');
+                }
+
+                const result = await response.json();
+
+                if (result.code === 1) {
+                    // Thành công - hiển thị toast
+                    showToast('success', 'Đã thêm vào giỏ hàng!', productName);
+
+                    // Cập nhật số lượng giỏ hàng ở header (nếu có)
+                    updateCartCount();
+                } else {
+                    showToast('error', 'Lỗi:', result.message || 'Không thể thêm vào giỏ');
+                }
+            } catch (error) {
+                console.error('Add to cart error:', error);
+                showToast('error', 'Lỗi kết nối', 'Vui lòng thử lại sau.');
+            } finally {
+                // Restore button
+                button.disabled = false;
+                button.innerHTML = originalHtml;
+            }
+        }
+
+        function showToast(type, title, message) {
+            // Tạo toast container nếu chưa có
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.style.position = 'fixed';
+                container.style.top = '20px';
+                container.style.right = '20px';
+                container.style.zIndex = '9999';
+                document.body.appendChild(container);
+            }
+
+            const toastId = 'toast-' + Date.now();
+            const bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
+
+            const toastHtml = `
+                <div id="${toastId}" class="toast align-items-center text-white ${bgClass} border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+                            <strong>${title}</strong> ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', toastHtml);
+
+            const toastElement = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+
+            // Xóa khỏi DOM sau khi ẩn
+            toastElement.addEventListener('hidden.bs.toast', () => {
+                toastElement.remove();
+            });
+        }
+
+        async function updateCartCount() {
+            try {
+                const response = await fetch('/Cart/Count');
+                const data = await response.json();
+                const countBadge = document.getElementById('cart-count');
+                if (countBadge) {
+                    countBadge.textContent = data.count;
+                    countBadge.style.display = data.count > 0 ? 'inline' : 'none';
+                }
+            } catch (error) {
+                console.error('Failed to update cart count:', error);
+            }
+        }
+    </script>
+}

@@ -1653,11 +1653,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj",
+      "projectUniqueName": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj",
       "projectName": "SV22T1080034.DataLayers",
-      "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj",
+      "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\SV22T1080034.DataLayers.csproj",
       "packagesPath": "C:\\Users\\my computer\\.nuget\\packages\\",
-      "outputPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\obj\\",
+      "outputPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DataLayers\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1678,8 +1678,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj": {
-              "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj"
+            "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj": {
+              "projectPath": "D:\\LTUDWeb\\thang\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.DomainModels\\SV22T1080034.DomainModels.csproj"
             }
           }
         }
