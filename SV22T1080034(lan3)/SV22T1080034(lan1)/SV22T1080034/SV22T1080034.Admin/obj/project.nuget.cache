@@ -1,0 +1,63 @@
+{
+  "version": 2,
+  "dgSpecHash": "QeTeekfk1Co=",
+  "success": true,
+  "projectFilePath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\SV22T1080034.Admin.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\my computer\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\chtchsconv\\1.0.0\\chtchsconv.1.0.0.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\flurl\\3.0.2\\flurl.3.0.2.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\flurl.http\\3.2.0\\flurl.http.3.2.0.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\joson.jiang.master.nuget\\1.0.0\\joson.jiang.master.nuget.1.0.0.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\8.0.0\\microsoft.bcl.asyncinterfaces.8.0.0.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.bcl.cryptography\\9.0.4\\microsoft.bcl.cryptography.9.0.4.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.data.sqlclient\\6.1.2\\microsoft.data.sqlclient.6.1.2.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\6.0.2\\microsoft.data.sqlclient.sni.runtime.6.0.2.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\9.0.4\\microsoft.extensions.caching.abstractions.9.0.4.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.extensions.caching.memory\\9.0.4\\microsoft.extensions.caching.memory.9.0.4.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.4\\microsoft.extensions.dependencyinjection.abstractions.9.0.4.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\9.0.4\\microsoft.extensions.logging.abstractions.9.0.4.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.extensions.options\\9.0.4\\microsoft.extensions.options.9.0.4.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.extensions.primitives\\9.0.4\\microsoft.extensions.primitives.9.0.4.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.identity.client\\4.73.1\\microsoft.identity.client.4.73.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.identity.client.extensions.msal\\4.73.1\\microsoft.identity.client.extensions.msal.4.73.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.identitymodel.abstractions\\7.7.1\\microsoft.identitymodel.abstractions.7.7.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\7.7.1\\microsoft.identitymodel.jsonwebtokens.7.7.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.identitymodel.logging\\7.7.1\\microsoft.identitymodel.logging.7.7.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.identitymodel.protocols\\7.7.1\\microsoft.identitymodel.protocols.7.7.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\7.7.1\\microsoft.identitymodel.protocols.openidconnect.7.7.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.identitymodel.tokens\\7.7.1\\microsoft.identitymodel.tokens.7.7.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.international.converters.pinyinconverter\\1.0.0\\microsoft.international.converters.pinyinconverter.1.0.0.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.clientmodel\\1.5.1\\system.clientmodel.1.5.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.configuration.configurationmanager\\9.0.4\\system.configuration.configurationmanager.9.0.4.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.1\\system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.diagnostics.eventlog\\9.0.4\\system.diagnostics.eventlog.9.0.4.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.7.1\\system.identitymodel.tokens.jwt.7.7.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.memory.data\\8.0.1\\system.memory.data.8.0.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.security.cryptography.pkcs\\9.0.4\\system.security.cryptography.pkcs.9.0.4.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.4\\system.security.cryptography.protecteddata.9.0.4.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.text.encoding.codepages\\4.5.1\\system.text.encoding.codepages.4.5.1.nupkg.sha512",
+    "C:\\Users\\my computer\\.nuget\\packages\\system.text.json\\9.0.5\\system.text.json.9.0.5.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'Microsoft.International.Converters.PinYinConverter 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net9.0'. This package may not be fully compatible with your project.",
+      "projectPath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\SV22T1080034.Admin.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\LTUDWeb\\SV22T1080034(1)\\SV22T1080034(lan3)\\SV22T1080034(lan1)\\SV22T1080034\\SV22T1080034.Admin\\SV22T1080034.Admin.csproj",
+      "libraryId": "Microsoft.International.Converters.PinYinConverter",
+      "targetGraphs": [
+        "net9.0"
+      ]
+    }
+  ]
+}

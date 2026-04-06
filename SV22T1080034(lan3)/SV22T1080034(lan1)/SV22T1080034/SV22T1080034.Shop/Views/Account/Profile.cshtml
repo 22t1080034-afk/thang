@@ -1,0 +1,140 @@
+@using SV22T1080034.DomainModels.Partner
+@model Customer
+
+@{
+    ViewBag.Title = "Thông tin cá nhân - NVTShop";
+}
+
+<div class="container mt-4" style="padding-top: 80px;">
+    <div class="row">
+        <div class="col-lg-4 mb-4" data-aos="fade-right">
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-person-circle fs-1 text-primary"></i>
+                    </div>
+                    <h5>@Model.CustomerName</h5>
+                    <p class="text-muted mb-1">@Model.Email</p>
+                    <p class="text-muted mb-0">ID: @Model.CustomerID</p>
+                </div>
+            </div>
+
+            <div class="card shadow border-0 rounded-4 mt-3">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="bi bi-info-circle me-2"></i>Thông tin tài khoản</h6>
+                    <hr>
+                    <p class="mb-1"><strong>Trạng thái:</strong> <span class="badge bg-success">Đang hoạt động</span></p>
+                    <p class="mb-0"><strong>Ngày tham gia:</strong> @DateTime.Now.ToString("dd/MM/yyyy")</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8" data-aos="fade-left">
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-person-gear me-2"></i>Chỉnh sửa thông tin</h5>
+                </div>
+                <div class="card-body p-4">
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>@TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i>@TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form method="post" asp-controller="Account" asp-action="Profile">
+                        @Html.AntiForgeryToken()
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input type="text" name="customerName" class="form-control" value="@Model.CustomerName" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label">Email <span class="text-muted">(không thể thay đổi)</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                    <input type="email" class="form-control" value="@Model.Email" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label">Số điện thoại</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                    <input type="tel" name="phone" class="form-control" value="@Model.Phone">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h6 class="mb-3"><i class="bi bi-lock me-2"></i>Thay đổi mật khẩu (để trống nếu không muốn đổi)</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Mật khẩu hiện tại</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                    <input type="password" name="currentPassword" class="form-control" placeholder="Nhập mật khẩu hiện tại">
+                                </div>
+                                <small class="text-muted">Cần nhập mật khẩu hiện tại để đổi mật khẩu mới</small>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Mật khẩu mới</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                    <input type="password" name="newPassword" class="form-control" placeholder="Mật khẩu mới" minlength="6">
+                                </div>
+                                <small class="text-muted">Tối thiểu 6 ký tự</small>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Xác nhận mật khẩu mới</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                    <input type="password" name="confirmPassword" class="form-control" placeholder="Nhập lại mật khẩu mới">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-2"></i>Cập nhật thông tin
+                            </button>
+                            <a href="/Order/History" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>Quay lại
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const newPassword = document.querySelector('input[name="newPassword"]').value;
+            const confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
+
+            if (newPassword && newPassword !== confirmPassword) {
+                e.preventDefault();
+                alert('Mật khẩu xác nhận không khớp!');
+            }
+        });
+    </script>
+}

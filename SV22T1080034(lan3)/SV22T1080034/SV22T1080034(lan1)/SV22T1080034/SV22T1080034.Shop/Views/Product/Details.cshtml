@@ -1,0 +1,388 @@
+@using SV22T1080034.DomainModels.Catalog
+@model Product
+
+@{
+    ViewBag.Title = $"{Model.ProductName} - Thang Shop";
+    var photos = ViewBag.Photos as List<ProductPhoto> ?? new List<ProductPhoto>();
+    var attributes = ViewBag.Attributes as List<ProductAttribute> ?? new List<ProductAttribute>();
+}
+
+<style>
+    .product-gallery {
+        position: relative;
+    }
+
+        .product-gallery .main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            background: #fff;
+            border-radius: 12px;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .product-gallery:hover .main-image {
+            transform: scale(1.02);
+        }
+
+    .thumbnail-list {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+        .thumbnail-list img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+            .thumbnail-list img:hover,
+            .thumbnail-list img.active {
+                border-color: var(--primary-color);
+                transform: scale(1.05);
+            }
+
+    .product-info-card {
+        border-radius: 16px;
+        border: none;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .quantity-selector {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .quantity-selector input {
+            width: 80px;
+            text-align: center;
+        }
+
+    .zoom-modal .img-fluid {
+        max-height: 90vh;
+        object-fit: contain;
+    }
+
+    .related-products-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .related-products-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+    .loading-skeleton {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: skeleton-loading 1.5s infinite;
+    }
+
+    @@keyframes skeleton-loading {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+</style>
+
+<div class="container mt-4" style="padding-top: 80px;">
+    <div class="row">
+        <!--LEFT: Product Gallery -->
+        <div class="col-lg-6 mb-4" data-aos="fade-right">
+            <div class="product-gallery">
+                <div class="mb-3">
+                    <img src="@(string.IsNullOrEmpty(photos.FirstOrDefault()?.Photo) ? "/images/products/nophoto.png" : $"/images/products/{photos.FirstOrDefault()!.Photo}")"
+                         class="main-image"
+                         id="mainProductImage"
+                         alt="@Model.ProductName"
+                         onclick="openZoomModal(this.src)"
+                         onerror="this.src='/images/products/nophoto.png'">
+                </div>
+
+                @if (photos.Count > 1)
+                {
+                    <div class="thumbnail-list">
+                        @foreach (var photo in photos)
+                        {
+                            <img src="@(string.IsNullOrEmpty(photo.Photo) ? "/images/products/nophoto.png" : $"/images/products/{photo.Photo}")"
+                                 class="@(photo == photos.FirstOrDefault() ? "active" : "")"
+                                 alt="@Model.ProductName"
+                                 onclick="changeMainImage(this)"
+                                 onerror="this.src='/images/products/nophoto.png'">
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!--RIGHT: Product Info -->
+        <div class="col-lg-6" data-aos="fade-left">
+            <div class="card product-info-card h-100">
+                <div class="card-body p-4">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mb-3">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a asp-controller="Product" asp-action="Index">Sản phẩm</a></li>
+                            <li class="breadcrumb-item"><a asp-controller="Product" asp-action="Index" asp-route-categoryID="@Model.CategoryID">@Model.CategoryName</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">@Model.ProductName</li>
+                        </ol>
+                    </nav>
+
+                    <h2 class="card-title fw-bold mb-3">@Model.ProductName</h2>
+
+                    <div class="mb-3">
+                        <span class="badge bg-primary fs-6">@Model.CategoryName</span>
+                        <span class="badge bg-secondary ms-2">@Model.Unit</span>
+                        @if (Model.IsSelling)
+                        {
+                            <span class="badge bg-success ms-2">Còn hàng</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger ms-2">Hết hàng</span>
+                        }
+                    </div>
+
+                    <h3 class="text-primary mb-4 display-5 fw-bold">@Model.Price.ToString("N0") ₫</h3>
+
+                    @if (!string.IsNullOrEmpty(Model.ProductDescription))
+                    {
+                        <div class="mb-4">
+                            <h6 class="text-muted text-uppercase fw-bold mb-2">Mô tả sản phẩm</h6>
+                            <p class="text-secondary">@Model.ProductDescription</p>
+                        </div>
+                    }
+
+                    @if (attributes.Any())
+                    {
+                        <div class="mb-4">
+                            <h6 class="text-muted text-uppercase fw-bold mb-2">Thông số kỹ thuật</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered product-attribute-table">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Tên thuộc tính</th>
+                                            <th>Giá trị</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var attr in attributes)
+                                        {
+                                            <tr>
+                                                <td>@attr.AttributeName</td>
+                                                <td>@attr.AttributeValue</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+
+                    <hr class="my-4">
+
+                    <!-- Add to Cart Section -->
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="quantity-selector">
+                                <label class="form-label fw-bold mb-0">Số lượng:</label>
+                                <div class="input-group">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity()">-</button>
+                                    <input type="number" class="form-control text-center" id="quantityInput" value="1" min="1" max="999">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity()">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-lg" id="addToCartBtn"
+                                    data-product-id="@Model.ProductID"
+                                    data-product-name="@Model.ProductName"
+                                    data-price="@Model.Price">
+                                <i class="bi bi-cart-plus me-2"></i>Thêm vào giỏ hàng
+                            </button>
+                            <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                                <i class="bi bi-cart3 me-2"></i>Xem giỏ hàng
+                            </a>
+                        </div>
+
+                        @if (string.IsNullOrEmpty(Model.Photo))
+                        {
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-outline-warning" onclick="autoFetchImage(@Model.ProductID)">
+                                    <i class="bi bi-download me-2"></i>Tải ảnh tự động từ Internet
+                                </button>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Vui lòng <a asp-controller="Account" asp-action="Login" class="text-decoration-none fw-bold">đăng nhập</a> để mua hàng.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    <div class="mt-5" data-aos="fade-up">
+        <h4 class="mb-4"><i class="bi bi-grid me-2"></i>Sản phẩm liên quan</h4>
+        <div class="row g-4" id="relatedProducts">
+            <!-- AJAX load sản phẩm liên quan -->
+            <div class="col-12 text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Zoom Modal -->
+<div class="modal fade zoom-modal" id="zoomModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-0 text-center">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                <img src="" class="img-fluid" id="zoomImage" alt="Zoom view">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Quantity controls
+        function increaseQuantity() {
+            const input = document.getElementById('quantityInput');
+            const current = parseInt(input.value) || 1;
+            if (current < 999) {
+                input.value = current + 1;
+            }
+        }
+
+        function decreaseQuantity() {
+            const input = document.getElementById('quantityInput');
+            const current = parseInt(input.value) || 1;
+            if (current > 1) {
+                input.value = current - 1;
+            }
+        }
+
+        // Image gallery
+        function changeMainImage(thumbnail) {
+            document.getElementById('mainProductImage').src = thumbnail.src;
+            document.querySelectorAll('.thumbnail-list img').forEach(img => img.classList.remove('active'));
+            thumbnail.classList.add('active');
+        }
+
+        // Zoom modal
+        function openZoomModal(imageSrc) {
+            document.getElementById('zoomImage').src = imageSrc;
+            new bootstrap.Modal(document.getElementById('zoomModal')).show();
+        }
+
+        // Add to cart
+        document.getElementById('addToCartBtn')?.addEventListener('click', async function() {
+            const productId = this.getAttribute('data-product-id');
+            const productName = this.getAttribute('data-product-name');
+            const price = parseFloat(this.getAttribute('data-price'));
+            const quantity = parseInt(document.getElementById('quantityInput')?.value) || 1;
+
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+            if (!token) {
+                showAlert('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.', 'error');
+                return;
+            }
+
+            try {
+                const formData = new FormData();
+                formData.append('productID', productId);
+                formData.append('quantity', quantity);
+                formData.append('salePrice', price);
+                formData.append('__RequestVerificationToken', token);
+
+                const response = await fetch('/Cart/Add', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (result.code === 1) {
+                    showAlert(`Đã thêm "${productName}" (x${quantity}) vào giỏ hàng!`, 'success');
+                    await updateCartCount();
+                } else {
+                    showAlert('Lỗi: ' + (result.message || 'Không thể thêm vào giỏ hàng'), 'error');
+                }
+            } catch (e) {
+                console.error('Add to cart error:', e);
+                showAlert('Có lỗi xảy ra. Vui lòng thử lại.', 'error');
+            }
+        });
+
+        // Load related products
+        async function loadRelatedProducts() {
+            try {
+                const categoryID = '@Model.CategoryID';
+                const productID = '@Model.ProductID';
+                const response = await fetch(`/Product/Related?categoryID=${categoryID}&productID=${productID}&limit=4`);
+                if (response.ok) {
+                    const html = await response.text();
+                    document.getElementById('relatedProducts').innerHTML = html;
+                }
+            } catch (e) {
+                console.error('Failed to load related products:', e);
+                document.getElementById('relatedProducts').innerHTML = '<div class="col-12 text-center text-muted">Không có sản phẩm liên quan</div>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadRelatedProducts);
+
+        // Auto fetch image
+        async function autoFetchImage(productId) {
+            if (!confirm('Tải ảnh từ Internet? Có thể mất vài giây.')) return;
+
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Đang tải...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`/Product/AutoFetchImage/${productId}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    showAlert('Đã tải ảnh thành công! Đang reload...', 'success');
+                    setTimeout(() => window.location.reload(), 1000);
+                } else {
+                    showAlert('Lỗi: ' + result.message, 'error');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            } catch (e) {
+                console.error('Auto fetch image error:', e);
+                showAlert('Có lỗi xảy ra khi tải ảnh.', 'error');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+}

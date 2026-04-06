@@ -1,0 +1,220 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SV22T1080034.BusinessLayers;
+using SV22T1080034.DomainModels.Catalog;
+using SV22T1080034.DomainModels.Sales;
+using SV22T1080034.Shop.Helpers;
+using SV22T1080034.Shop.Models;
+
+namespace SV22T1080034.Shop.Controllers
+{
+    [Authorize]
+    public class CartController : Controller
+    {
+        private const string CART_SESSION_KEY = "CartItems";
+
+        // Helper: Lấy giỏ hàng từ Session
+        private List<CartItem> GetCartFromSession()
+        {
+            var cart = HttpContext.Session.GetObject<List<CartItem>>(CART_SESSION_KEY);
+            return cart ?? new List<CartItem>();
+        }
+
+        // Helper: Lưu giỏ hàng vào Session
+        private void SaveCartToSession(List<CartItem> cart)
+        {
+            HttpContext.Session.SetObject(CART_SESSION_KEY, cart);
+        }
+
+        // GET: /Shop/Cart
+        public async Task<IActionResult> Index()
+        {
+            var cart = GetCartFromSession();
+            ViewBag.Title = "Giỏ hàng - Thang Shop";
+            return View(cart);
+        }
+
+        // POST: /Shop/Cart/Add
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(int productID, int quantity, decimal salePrice)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine($"[Cart Add] productID={productID}, quantity={quantity}, salePrice={salePrice}");
+
+                // Validate inputs
+                if (productID <= 0)
+                {
+                    return Json(new { code = 0, message = "Sản phẩm không hợp lệ." });
+                }
+                if (quantity <= 0)
+                {
+                    return Json(new { code = 0, message = "Số lượng không hợp lệ." });
+                }
+
+                // Lấy thông tin sản phẩm từ DB
+                var product = await CatalogDataService.GetProductAsync(productID);
+                if (product == null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[Cart Add] Product not found: {productID}");
+                    return Json(new { code = 0, message = "Không tìm thấy sản phẩm." });
+                }
+
+                System.Diagnostics.Debug.WriteLine($"[Cart Add] Found product: {product.ProductName}");
+
+                var cart = GetCartFromSession();
+                System.Diagnostics.Debug.WriteLine($"[Cart Add] Current cart items: {cart.Count}");
+
+                // Kiểm tra xem sản phẩm đã có trong giỏ chưa
+                var existingItem = cart.FirstOrDefault(c => c.ProductID == productID);
+                if (existingItem != null)
+                {
+                    existingItem.Quantity += quantity;
+                    System.Diagnostics.Debug.WriteLine($"[Cart Add] Updated quantity: {existingItem.Quantity}");
+                }
+                else
+                {
+                    cart.Add(new CartItem
+                    {
+                        ProductID = productID,
+                        ProductName = product.ProductName,
+                        Photo = product.Photo,
+                        Price = product.Price,
+                        SalePrice = salePrice,
+                        Quantity = quantity,
+                        Unit = product.Unit
+                    });
+                    System.Diagnostics.Debug.WriteLine($"[Cart Add] Added new item");
+                }
+
+                SaveCartToSession(cart);
+                System.Diagnostics.Debug.WriteLine($"[Cart Add] Cart saved. Total items: {cart.Sum(c => c.Quantity)}");
+
+                return Json(new { code = 1, message = "Đã thêm vào giỏ hàng!" });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Cart Add Error] {ex.GetType().Name}: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[Cart Add StackTrace] {ex.StackTrace}");
+                return Json(new { code = 0, message = "Có lỗi xảy ra. Vui lòng thử lại.", error = ex.Message });
+            }
+        }
+
+        // GET: /Shop/Cart/Count (AJAX)
+        [HttpGet]
+        public async Task<IActionResult> Count()
+        {
+            var cart = GetCartFromSession();
+            int count = cart.Sum(c => c.Quantity);
+            return Json(new { count = count });
+        }
+
+        // GET: /Shop/Cart/GetCartModal (AJAX - Partial View)
+        [HttpGet]
+        public async Task<IActionResult> GetCartModal()
+        {
+            var cart = GetCartFromSession();
+            return PartialView("_CartModal", cart);
+        }
+
+        // POST: /Shop/Cart/Remove
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Remove(int productID)
+        {
+            var cart = GetCartFromSession();
+            var item = cart.FirstOrDefault(c => c.ProductID == productID);
+            if (item != null)
+            {
+                cart.Remove(item);
+                SaveCartToSession(cart);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: /Shop/Cart/Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(int productID, int quantity)
+        {
+            var cart = GetCartFromSession();
+            var item = cart.FirstOrDefault(c => c.ProductID == productID);
+            if (item != null)
+            {
+                if (quantity <= 0)
+                {
+                    cart.Remove(item);
+                }
+                else
+                {
+                    item.Quantity = quantity;
+                }
+                SaveCartToSession(cart);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: /Shop/Cart/Clear
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Clear()
+        {
+            HttpContext.Session.Remove(CART_SESSION_KEY);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: /Shop/Cart/Checkout - Chuyển sang đơn hàng
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Checkout(string deliveryProvince, string deliveryAddress)
+        {
+            var cart = GetCartFromSession();
+            if (!cart.Any())
+            {
+                return Json(new { code = 0, message = "Giỏ hàng trống." });
+            }
+
+            if (string.IsNullOrWhiteSpace(deliveryProvince) || string.IsNullOrWhiteSpace(deliveryAddress))
+            {
+                return Json(new { code = 0, message = "Vui lòng nhập đầy đủ thông tin giao hàng." });
+            }
+
+            int customerID = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
+
+            try
+            {
+                var orderDetails = cart.Select(c => new OrderDetailViewInfo
+                {
+                    ProductID = c.ProductID,
+                    ProductName = c.ProductName,
+                    Quantity = c.Quantity,
+                    SalePrice = c.SalePrice
+                }).ToList();
+
+                int orderID = await SalesDataService.AddOrderAsync(
+                    customerID,
+                    deliveryProvince,
+                    deliveryAddress,
+                    orderDetails
+                );
+
+                if (orderID > 0)
+                {
+                    // Xóa giỏ hàng sau khi đặt thành công
+                    HttpContext.Session.Remove(CART_SESSION_KEY);
+                    var redirectUrl = Url.Action("Details", "Order", new { id = orderID });
+                    return Json(new { code = 1, redirectUrl = redirectUrl });
+                }
+                else
+                {
+                    return Json(new { code = 0, message = "Đặt hàng thất bại. Vui lòng thử lại." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = 0, message = "Có lỗi xảy ra: " + ex.Message });
+            }
+        }
+    }
+}

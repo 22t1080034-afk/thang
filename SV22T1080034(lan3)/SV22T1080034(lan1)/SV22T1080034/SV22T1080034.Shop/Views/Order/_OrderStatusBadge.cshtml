@@ -1,0 +1,19 @@
+@using SV22T1080034.DomainModels.Sales
+@model OrderStatusEnum
+
+@{
+    var statusInfo = Model switch
+    {
+        OrderStatusEnum.New => new { Class = "bg-warning text-dark", Icon = "bi bi-clock", Text = "Mới" },
+        OrderStatusEnum.Accepted => new { Class = "bg-info text-dark", Icon = "bi bi-check-circle", Text = "Đã duyệt" },
+        OrderStatusEnum.Shipping => new { Class = "bg-primary", Icon = "bi bi-truck", Text = "Đang giao" },
+        OrderStatusEnum.Completed => new { Class = "bg-success", Icon = "bi bi-check-square", Text = "Hoàn tất" },
+        OrderStatusEnum.Cancelled => new { Class = "bg-secondary", Icon = "bi bi-x-circle", Text = "Đã hủy" },
+        OrderStatusEnum.Rejected => new { Class = "bg-danger", Icon = "bi bi-x-octagon", Text = "Từ chối" },
+        _ => new { Class = "bg-secondary", Icon = "bi bi-question", Text = "Không xác định" }
+    };
+}
+
+<span class="badge @statusInfo.Class fw-bold py-2 px-3" style="font-size: 0.85rem;">
+    <i class="@statusInfo.Icon me-1"></i>@statusInfo.Text
+</span>

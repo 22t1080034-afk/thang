@@ -1,0 +1,53 @@
+﻿@using SV22T1080034.DomainModels.Sales
+@model OrderDetailViewInfo
+@{
+    Layout = null;
+}
+<form action="~/Order/UpdateDetail" method="post">
+    <input type="hidden" name="orderID" value="@Model.OrderID" />
+    <input type="hidden" name="productID" value="@Model.ProductID" />
+
+    <div class="modal-header text-bg-primary">
+        <strong class="modal-title">Cập nhật mặt hàng trong đơn</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row mb-3 align-items-center">
+                    <label class="col-sm-4 col-form-label fw-semibold">Tên mặt hàng</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control-plaintext fw-bold" value="@Model.ProductName" readonly />
+                    </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                    <label class="col-sm-4 col-form-label fw-semibold">Số lượng</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control" name="quantity" value="@Model.Quantity" min="1" required />
+                    </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                    <label class="col-sm-4 col-form-label fw-semibold">Đơn giá</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control money-input text-end" name="salePrice" value="@Model.SalePrice.ToString("0.##")" required />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 text-end">
+                <img src="~/images/products/@(string.IsNullOrEmpty(Model.Photo) ? "nophoto.png" : Model.Photo)"
+                     alt="@Model.ProductName"
+                     class="img-thumbnail"
+                     style="max-height:150px; object-fit: contain;">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save"></i> Lưu thay đổi
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+    </div>
+</form>

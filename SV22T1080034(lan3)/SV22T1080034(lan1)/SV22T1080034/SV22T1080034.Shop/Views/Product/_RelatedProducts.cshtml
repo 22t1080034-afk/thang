@@ -1,0 +1,39 @@
+@model List<Product>
+
+@if (Model.Any())
+{
+    <div class="row g-4">
+        @foreach (var product in Model)
+        {
+            <div class="col-6 col-md-3">
+                <div class="related-card">
+
+                    <div class="img-box">
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@product.ProductID">
+                            <img src="@(string.IsNullOrEmpty(product.Photo) ? "/images/products/nophoto.png" : $"/images/products/{product.Photo}")"
+                                 alt="@product.ProductName">
+                        </a>
+
+                        <div class="overlay">
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.ProductID" class="btn btn-light btn-sm">
+                                Xem
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <h6>@product.ProductName</h6>
+                        <p class="price">@product.Price.ToString("N0") ₫</p>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="text-center py-4 text-muted">
+        Không có sản phẩm liên quan
+    </div>
+}

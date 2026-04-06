@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow">
+        <form asp-action="Accept" asp-controller="Order" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@ViewBag.OrderID" />
+            <div class="modal-header bg-gradient bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-check-circle me-2"></i>Duyệt đơn hàng #@ViewBag.OrderID
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3">
+                    <i class="bi bi-info-circle-fill text-primary display-4"></i>
+                </div>
+                <h5 class="text-primary">Xác nhận duyệt đơn hàng</h5>
+                <p class="mb-0">
+                    Bạn có chắc chắn muốn <strong>duyệt và chấp nhận</strong> đơn hàng này?
+                    <br><small class="text-muted">Sau khi duyệt, đơn sẽ chuyển sang trạng thái <span class="badge bg-primary">Đã duyệt</span></small>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i>Hủy
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle me-1"></i>Xác nhận duyệt
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

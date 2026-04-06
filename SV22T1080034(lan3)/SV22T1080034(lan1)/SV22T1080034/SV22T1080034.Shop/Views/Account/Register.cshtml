@@ -1,0 +1,257 @@
+@{
+    ViewBag.Title = "Đăng ký tài khoản - Thang Shop";
+}
+
+@section Styles {
+    <style>
+        .auth-card {
+            border-radius: 20px !important;
+            border: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1) !important;
+        }
+
+        .auth-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px 20px 0 0 !important;
+            padding: 2rem;
+            text-align: center;
+            margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+        }
+
+        .auth-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .input-group-text {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-right: none;
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            padding: 12px 16px;
+        }
+
+            .form-control:focus {
+                border-color: #667eea;
+                box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+            }
+
+        .btn-auth {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .btn-auth:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+                background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            }
+
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            margin-top: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .strength-0 { width: 0%; background: transparent; }
+        .strength-1 { width: 25%; background: #dc3545; }
+        .strength-2 { width: 50%; background: #ffc107; }
+        .strength-3 { width: 75%; background: #17a2b8; }
+        .strength-4 { width: 100%; background: #28a745; }
+    </style>
+}
+
+<div class="container mt-4" style="padding-top: 80px;">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow border-0 rounded-4 auth-card" data-aos="fade-up">
+                <div class="card-header auth-header">
+                    <i class="bi bi-person-plus auth-icon"></i>
+                    <h2 class="mt-3 mb-0">Đăng ký tài khoản</h2>
+                    <p class="mb-0 mt-2 opacity-75">Tạo tài khoản mới để bắt đầu mua sắm</p>
+                </div>
+                <div class="card-body p-4">
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>@TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i>@TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form method="post" action="/Account/Register">
+                        @Html.AntiForgeryToken()
+
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input type="text" name="customerName" class="form-control" placeholder="Nhập họ và tên" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label">Email <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                    <input type="email" name="email" class="form-control" placeholder="Nhập email" required>
+                                </div>
+                                <small class="text-muted">Email sẽ dùng để đăng nhập</small>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label">Số điện thoại</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                    <input type="tel" name="phone" class="form-control" placeholder="Nhập số điện thoại">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                    <input type="password" name="password" class="form-control" placeholder="Mật khẩu" required minlength="6">
+                                </div>
+                                <small class="text-muted">Tối thiểu 6 ký tự</small>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                    <input type="password" name="confirmPassword" class="form-control" placeholder="Nhập lại mật khẩu" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 form-check mt-3">
+                            <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">
+                                Tôi đồng ý với <a href="#" class="text-decoration-none">điều khoản sử dụng</a>
+                            </label>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-auth btn-lg" id="registerBtn">
+                                <i class="bi bi-check-circle me-2"></i>Đăng ký
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <p class="mb-0">Đã có tài khoản? <a href="/Account/Login" class="text-decoration-none">Đăng nhập ngay</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const passwordInput = document.querySelector('input[name="password"]');
+        if (passwordInput) {
+            let strengthBar;
+
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+
+                if (password.length >= 6) strength++;
+                if (password.length >= 10) strength++;
+                if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+                if (/\d/.test(password) && /[^a-zA-Z0-9]/.test(password)) strength++;
+
+                // Update visual indicator
+                if (!strengthBar) {
+                    strengthBar = document.createElement('div');
+                    strengthBar.className = 'password-strength strength-0';
+                    this.parentNode.appendChild(strengthBar);
+                }
+
+                strengthBar.className = 'password-strength strength-' + Math.min(strength, 4);
+            });
+        }
+
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password = document.querySelector('input[name="password"]').value;
+            const confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
+
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Mật khẩu xác nhận không khớp!');
+                return false;
+            }
+
+            if (password.length < 6) {
+                e.preventDefault();
+                alert('Mật khẩu phải có ít nhất 6 ký tự!');
+                return false;
+            }
+        });
+
+        // Focus vào first input
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('input[name="customerName"]').focus();
+        });
+
+        // Show strength text
+        document.querySelector('input[name="password"]')?.addEventListener('input', function() {
+            const password = this.value;
+            let strengthText = '';
+            let strength = 0;
+
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password) && /[^a-zA-Z0-9]/.test(password)) strength++;
+
+            switch(strength) {
+                case 0:
+                case 1: strengthText = 'Yếu'; break;
+                case 2: strengthText = 'Trung bình'; break;
+                case 3: strengthText = 'Mạnh'; break;
+                case 4: strengthText = 'Rất mạnh'; break;
+            }
+
+            let existingHint = document.querySelector('.password-hint');
+            if (password.length > 0) {
+                if (!existingHint) {
+                    existingHint = document.createElement('small');
+                    existingHint.className = 'password-hint text-muted';
+                    this.parentNode.appendChild(existingHint);
+                }
+                existingHint.textContent = 'Độ mạnh mật khẩu: ' + strengthText;
+                existingHint.className = 'password-hint text-muted';
+                if (strength <= 1) existingHint.classList.add('text-danger');
+                else if (strength === 2) existingHint.classList.add('text-warning');
+                else existingHint.classList.add('text-success');
+            } else if (existingHint) {
+                existingHint.remove();
+            }
+        });
+    </script>
+}

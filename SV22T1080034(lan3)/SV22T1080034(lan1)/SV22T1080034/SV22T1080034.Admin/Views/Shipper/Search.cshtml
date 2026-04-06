@@ -1,0 +1,101 @@
+﻿@using SV22T1080034.DomainModels.Common
+@using SV22T1080034.DomainModels.Partner
+@model PagedResult<Shipper>
+@{
+    Layout = null;
+}
+
+@* Viết một hàm nhỏ ngay trong file .cshtml để format số điện thoại *@
+@functions {
+    public string FormatPhoneNumber(string? phone)
+    {
+        if (string.IsNullOrWhiteSpace(phone)) return "";
+
+        // Xóa tất cả các ký tự không phải là số (dấu chấm, khoảng trắng, gạch ngang...)
+        var digits = new string(phone.Where(char.IsDigit).ToArray());
+
+        // Định dạng cho số di động (10 số): 0935 444 666
+        if (digits.Length == 10)
+        {
+            return $"{digits.Substring(0, 4)} {digits.Substring(4, 3)} {digits.Substring(7)}";
+        }
+        // Định dạng cho số máy bàn (11 số): 0234 388 2111
+        else if (digits.Length == 11)
+        {
+            return $"{digits.Substring(0, 4)} {digits.Substring(4, 3)} {digits.Substring(7)}";
+        }
+
+        // Fallback: Nếu độ dài lạ (không phải 10 hay 11 số), thay dấu chấm thành khoảng trắng cho dễ nhìn
+        return phone.Replace(".", " ").Replace("-", " ");
+    }
+}
+
+<div class="mb-2 text-muted">
+    Danh sách này có <strong>@Model.RowCount</strong> người giao hàng
+</div>
+
+<div class="card">
+    <div class="card-body p-1">
+        <table class="table table-bordered table-hover mb-0">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Tên người giao hàng</th>
+                    <th>Điện thoại</th>
+                    <th class="text-center" style="width:100px;">Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.DataItems)
+                {
+                    <tr>
+                        <td>@item.ShipperName</td>
+
+                        @* Gọi hàm Format ở đây *@
+                        <td>@FormatPhoneNumber(item.Phone)</td>
+
+                        <td class="text-center text-nowrap">
+                            <a href="~/Shipper/Edit/@item.ShipperID" class="btn btn-sm btn-primary">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <a href="~/Shipper/Delete/@item.ShipperID" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+            @foreach (var p in Model.GetDisplayPages())
+            {
+                if (p.IsCurrent)
+                {
+                    <li class="page-item active">
+                        <a class="page-link">@p.Page</a>
+                    </li>
+                }
+                else if (p.IsEllipsis)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link">...</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="javascript:;"
+                           onclick="paginationSearch(event, document.getElementById('formSearch'), @p.Page)">
+                            @p.Page
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</div>

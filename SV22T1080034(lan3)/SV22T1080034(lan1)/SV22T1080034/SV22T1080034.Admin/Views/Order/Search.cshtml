@@ -1,0 +1,110 @@
+﻿@using SV22T1080034.DomainModels.Common
+@using SV22T1080034.DomainModels.Sales
+@model PagedResult<OrderViewInfo>
+
+@{
+    Layout = null;
+}
+
+<div class="mb-2 text-muted">
+    Danh sách này có <strong>@Model.RowCount</strong> đơn hàng
+</div>
+
+<div class="card">
+    <div class="card-body p-1">
+        <table class="table table-bordered table-hover mb-0 align-middle">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Ngày đặt hàng</th>
+                    <th>Tên khách hàng</th>
+                    <th>Điện thoại</th>
+                    <th>Ngày duyệt</th>
+                    <th>Nhân viên xử lý</th>
+                    <th class="text-end">Tổng tiền</th>
+                    <th class="text-center">Trạng thái</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.DataItems)
+                {
+                    <tr>
+                        <td>@item.OrderTime.ToString("dd/MM/yyyy")</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.CustomerPhone</td>
+                        <td>@(item.AcceptTime?.ToString("dd/MM/yyyy"))</td>
+                        <td>@item.EmployeeName</td>
+                        <td class="text-end">@item.TotalPrice.ToString("#,##0")</td>
+
+                        <td class="text-center">
+                            @switch (item.Status)
+                            {
+                                case OrderStatusEnum.New:
+                                    <span class="badge bg-warning text-dark">Chờ duyệt</span>
+                                    break;
+                                case OrderStatusEnum.Accepted:
+                                    <span class="badge bg-primary">Đã duyệt</span>
+                                    break;
+                                case OrderStatusEnum.Shipping:
+                                    <span class="badge bg-info">Đang giao</span>
+                                    break;
+                                case OrderStatusEnum.Completed:
+                                    <span class="badge bg-success">Hoàn tất</span>
+                                    break;
+                                case OrderStatusEnum.Cancelled:
+                                    <span class="badge bg-secondary">Đã hủy</span>
+                                    break;
+                                case OrderStatusEnum.Rejected:
+                                    <span class="badge bg-danger">Bị từ chối</span>
+                                    break;
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            <a href="~/Order/Detail/@item.OrderID"
+                               class="btn btn-sm btn-primary">
+                                <i class="bi bi-receipt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+
+            @foreach (var p in Model.GetDisplayPages())
+            {
+                if (p.IsCurrent)
+                {
+                    <li class="page-item active">
+                        <a class="page-link">@p.Page</a>
+                    </li>
+                }
+                else if (p.IsEllipsis)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link">...</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="javascript:;"
+                           onclick="paginationSearch(event,
+                                                   document.getElementById('formSearch'),
+                                                   @p.Page)">
+                            @p.Page
+                        </a>
+                    </li>
+                }
+            }
+
+        </ul>
+    </div>
+</div>

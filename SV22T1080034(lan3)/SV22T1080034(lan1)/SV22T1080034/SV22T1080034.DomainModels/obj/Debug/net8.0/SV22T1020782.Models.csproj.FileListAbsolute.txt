@@ -1,0 +1,12 @@
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\bin\Debug\net8.0\SV22T1020782.Models.deps.json
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\bin\Debug\net8.0\SV22T1020782.Models.dll
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\bin\Debug\net8.0\SV22T1020782.Models.pdb
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\obj\Debug\net8.0\SV22T1020782.Models.csproj.AssemblyReference.cache
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\obj\Debug\net8.0\SV22T1020782.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\obj\Debug\net8.0\SV22T1020782.Models.AssemblyInfoInputs.cache
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\obj\Debug\net8.0\SV22T1020782.Models.AssemblyInfo.cs
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\obj\Debug\net8.0\SV22T1020782.Models.csproj.CoreCompileInputs.cache
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\obj\Debug\net8.0\SV22T1020782.Models.dll
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\obj\Debug\net8.0\refint\SV22T1020782.Models.dll
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\obj\Debug\net8.0\SV22T1020782.Models.pdb
+C:\LTWeb\SV22T1020782\SV22T1020782.Models\obj\Debug\net8.0\ref\SV22T1020782.Models.dll

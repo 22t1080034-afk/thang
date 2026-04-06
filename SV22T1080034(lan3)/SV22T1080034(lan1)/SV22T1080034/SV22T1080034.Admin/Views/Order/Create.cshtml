@@ -1,0 +1,280 @@
+﻿@using SV22T1080034.DomainModels.Catalog
+@model ProductSearchInput
+@{
+    ViewBag.Title = "Lập đơn hàng";
+}
+
+<div class="row">
+    <div class="col-4">
+        <div class="card card-outline card-primary h-100">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-search"></i>
+                    Lựa chọn hàng cần bán
+                </h5>
+            </div>
+
+            <div class="card-body">
+                <form id="formSearch"
+                      method="get"
+                      action="~/Order/SearchProduct"
+                      data-target="productSearchResult"
+                      onsubmit="paginationSearch(event, this, 1)">
+
+                    <input type="hidden" asp-for="PageSize" />
+                    <input type="hidden" asp-for="CategoryID" />
+                    <input type="hidden" asp-for="SupplierID" />
+                    <input type="hidden" asp-for="MinPrice" />
+                    <input type="hidden" asp-for="MaxPrice" />
+
+                    <div class="input-group">
+                        <input class="form-control"
+                               asp-for="SearchValue"
+                               placeholder="Nhập tên mặt hàng cần tìm" />
+
+                        <button class="btn btn-primary">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <div id="productSearchResult" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-8">
+        <div class="row">
+            <div class="col-12" id="cart">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="card card-outline card-info">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-person"></i>
+                            Thông tin khách hàng & nơi giao hàng
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+                        <form method="post" onsubmit="createOrder(event, this)">
+                            <div class="row mb-3">
+                                <label class="col-md-2 col-form-label">Khách hàng</label>
+                                <div class="col-md-10">
+                                    <select class="form-select" name="customerID" asp-items="await SelectListHelper.Customers()">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-md-2 col-form-label">Tỉnh/thành</label>
+                                <div class="col-md-10">
+                                    <select class="form-select"
+                                            name="province"
+                                            asp-items="await SelectListHelper.Provinces()">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-md-2 col-form-label">Địa chỉ</label>
+                                <div class="col-md-10">
+                                    <textarea class="form-control" name="address"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="text-end">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="bi bi-check-circle"></i>
+                                    Lập đơn hàng
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dialogModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Load danh sách sản phẩm trang 1 ngay khi vào trang
+            paginationSearch(null, document.getElementById("formSearch"), @Model.Page);
+            // Load giỏ hàng
+            showCart();
+
+            // ==========================================
+            // 1. KHÔI PHỤC DỮ LIỆU NHÁP TỪ VIEWBAG
+            // ==========================================
+            var draftCustomerID = '@(ViewBag.DraftOrder?.CustomerID ?? 0)';
+            var draftProvince = `@Html.Raw(ViewBag.DraftOrder?.DeliveryProvince ?? "")`;
+            var draftAddress = `@Html.Raw(ViewBag.DraftOrder?.DeliveryAddress ?? "")`;
+
+            if (draftCustomerID != '0') document.querySelector('select[name="customerID"]').value = draftCustomerID;
+            if (draftProvince != '') document.querySelector('select[name="province"]').value = draftProvince;
+            if (draftAddress != '') document.querySelector('textarea[name="address"]').value = draftAddress;
+
+            // ==========================================
+            // 2. LẮNG NGHE SỰ KIỆN ĐỂ LƯU NHÁP NGẦM
+            // ==========================================
+            const customerInput = document.querySelector('select[name="customerID"]');
+            const provinceInput = document.querySelector('select[name="province"]');
+            const addressInput = document.querySelector('textarea[name="address"]');
+
+            if (customerInput) customerInput.addEventListener('change', saveDraftOrder);
+            if (provinceInput) provinceInput.addEventListener('change', saveDraftOrder);
+            if (addressInput) {
+                addressInput.addEventListener('change', saveDraftOrder);
+                addressInput.addEventListener('keyup', saveDraftOrder);
+            }
+        });
+
+        // Hàm mở Modal bằng AJAX (CHÍNH LÀ CÁI ĐANG THIẾU!)
+        function openModal(event, element) {
+            // Chặn chuyển trang
+            event.preventDefault();
+            const url = element.getAttribute("href");
+
+            // Fetch tải giao diện HTML về
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    // Nhét HTML vào thẻ modal-content
+                    const modalElement = document.getElementById('dialogModal');
+                    modalElement.querySelector('.modal-content').innerHTML = data;
+
+                    // Hiển thị Modal lên
+                    const modalInstance = new bootstrap.Modal(modalElement);
+                    modalInstance.show();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Có lỗi xảy ra khi tải dữ liệu!");
+                });
+        }
+
+        // Hàm gửi dữ liệu nháp lên Server mà không làm tải lại trang
+        function saveDraftOrder() {
+            const formData = new FormData();
+            formData.append("customerID", document.querySelector('select[name="customerID"]').value);
+            formData.append("province", document.querySelector('select[name="province"]').value);
+            formData.append("address", document.querySelector('textarea[name="address"]').value);
+
+            fetch("/Order/SaveDraftOrder", {
+                method: "POST",
+                body: formData
+            });
+        }
+
+        function showCart() {
+            fetch("/Order/ShowCart")
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("cart").innerHTML = data;
+                });
+        }
+
+        function addCartItem(event, form) {
+            event.preventDefault();
+            const formData = new FormData(form);
+
+            fetch("/Order/AddCartItem", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 1) {
+                    showCart();
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
+
+        function deleteCartItem(productID) {
+            fetch(`/Order/DeleteCartItem?productId=${productID}`, {
+                method: "POST"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 1) {
+                    const modalElement = document.getElementById("dialogModal");
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if(modalInstance) modalInstance.hide();
+
+                    showCart();
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
+
+        function clearCart() {
+            fetch("/Order/ClearCart", {
+                method: "POST"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 1) {
+                    const modalElement = document.getElementById("dialogModal");
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if(modalInstance) modalInstance.hide();
+
+                    showCart();
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
+
+        function updateCartItem(form) {
+            const formData = new FormData(form);
+            fetch("/Order/UpdateCartItem", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 1) {
+                    const modalElement = document.getElementById("dialogModal");
+                    let modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if (modalInstance) modalInstance.hide();
+                    showCart();
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
+
+        function createOrder(event, form) {
+            event.preventDefault();
+            const formData = new FormData(form);
+
+            fetch("/Order/CreateOrder", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 0) {
+                    alert(data.message);
+                } else {
+                    // Chuyển hướng đến trang chi tiết đơn hàng
+                    window.location.href = `/Order/Detail/${data.code}`;
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form action="~/Order/Shipping/@ViewBag.OrderID" method="post">
+    @Html.AntiForgeryToken()
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Xác nhận chuyển giao hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Chọn người giao hàng:</label>
+                    <select class="form-select" name="shipperID" required>
+                        <option value="0">-- Chọn người giao hàng --</option>
+
+                        @if (ViewBag.Shippers != null)
+                        {
+                            foreach (var item in ViewBag.Shippers as List<SV22T1080034.DomainModels.Partner.Shipper>)
+                            {
+                                <option value="@item.ShipperID">@item.ShipperName - @item.Phone</option>
+                            }
+                        }
+
+                    </select>
+                    @if (TempData["Message"] != null)
+                    {
+                        <span class="text-danger mt-1 d-block">@TempData["Message"]</span>
+                    }
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-truck"></i> Chuyển giao hàng
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy bỏ
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

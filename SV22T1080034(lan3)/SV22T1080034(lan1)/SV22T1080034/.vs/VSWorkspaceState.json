@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\SV22T1080034.Admin",
+    "\\SV22T1080034.Admin\\obj",
+    "\\SV22T1080034.Admin\\Views\\Supplier",
+    "\\SV22T1080034.BusinessLayers",
+    "\\SV22T1080034.DataLayers"
+  ],
+  "SelectedNode": "\\SV22T1080034.DataLayers\\SupplierDAL.cs",
+  "PreviewInSolutionExplorer": false
+}

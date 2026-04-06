@@ -1,0 +1,234 @@
+@using SV22T1080034.DomainModels.Catalog
+@model Product
+
+@{
+    ViewBag.Title = $"{Model.ProductName} - Thang Shop";
+    var photos = ViewBag.Photos as List<ProductPhoto> ?? new List<ProductPhoto>();
+    var attributes = ViewBag.Attributes as List<ProductAttribute> ?? new List<ProductAttribute>();
+}
+
+@section Styles {
+    <style>
+        .product-gallery {
+            position: sticky;
+            top: 100px;
+        }
+
+        .main-image-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .thumbnail-container img {
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+            .thumbnail-container img:hover {
+                border-color: #667eea;
+                transform: scale(1.05);
+            }
+
+            .thumbnail-container img.active {
+                border-color: #667eea;
+                box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+            }
+
+        .product-info-card {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .attribute-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            border: none;
+            padding: 12px;
+        }
+
+        .attribute-table td {
+            padding: 12px;
+            border-color: #e9ecef;
+        }
+
+
+        .empty-state {
+            border-radius: 16px;
+            background: white;
+            padding: 40px 20px;
+        }
+
+        }
+
+    </style>
+}
+
+<div class="container mt-4" style="padding-top: 80px;">
+    <div class="row" data-aos="fade-up">
+        <!-- Product Images -->
+        <div class="col-lg-6 mb-4">
+            <div class="product-gallery">
+                @{
+                    // Ưu tiên product.Photo trước, sau đó mới dùng photos
+                    var mainPhoto = !string.IsNullOrEmpty(Model.Photo)
+                        ? Model.Photo
+                        : (photos.FirstOrDefault()?.Photo ?? "");
+                }
+
+                @if (!string.IsNullOrEmpty(mainPhoto))
+                {
+                    <div class="main-image-container mb-3">
+                        <img src="@Url.Content($"~/images/products/{mainPhoto}")"
+                             class="img-fluid w-100" id="mainImage" alt="@Model.ProductName">
+                    </div>
+
+                    @if (photos.Any())
+                    {
+                        <div class="thumbnail-container d-flex flex-wrap gap-2 justify-content-center">
+                            @foreach (var photo in photos)
+                            {
+                                <img src="@(string.IsNullOrEmpty(photo.Photo) ? "/images/products/nophoto.png" : $"/images/products/{photo.Photo}")"
+                                     class="img-thumbnail rounded" style="width: 90px; height: 90px; object-fit: cover; cursor: pointer;"
+                                     onclick="changeMainImage(this)"
+                                     alt="@Model.ProductName">
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="main-image-container">
+                        <img src="/images/products/nophoto.png" class="img-fluid w-100" alt="@Model.ProductName">
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-lg-6" data-aos="fade-left">
+            <div class="card shadow border-0 rounded-4 h-100 product-info-card">
+                <div class="card-body p-4">
+                    <h2 class="card-title mb-3">@Model.ProductName</h2>
+
+                    <div class="mb-3">
+                        <span class="badge bg-primary">@Model.CategoryName</span>
+                        <span class="badge bg-secondary ms-2">@Model.Unit</span>
+                        @if (Model.IsSelling)
+                        {
+                            <span class="badge bg-success ms-2">Đang bán</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger ms-2">Ngừng bán</span>
+                        }
+                    </div>
+
+                    <h3 class="text-primary mb-4">@Model.Price.ToString("N0") ₫</h3>
+
+                    @if (!string.IsNullOrEmpty(Model.ProductDescription))
+                    {
+                        <div class="mb-4">
+                            <h6>Mô tả:</h6>
+                            <p class="text-muted">@Model.ProductDescription</p>
+                        </div>
+                    }
+
+                    @if (attributes.Any())
+                    {
+                        <div class="mb-4">
+                            <h6>Thuộc tính:</h6>
+                            <table class="table table-sm table-bordered attribute-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Tên thuộc tính</th>
+                                        <th>Giá trị</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var attr in attributes)
+                                    {
+                                        <tr>
+                                            <td>@attr.AttributeName</td>
+                                            <td>@attr.AttributeValue</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <div class="d-grid gap-2">
+                            @if (string.IsNullOrEmpty(Model.Photo))
+                            {
+                                <button type="button" class="btn btn-outline-warning btn-lg" onclick="autoFetchImage(@Model.ProductID)">
+                                    <i class="bi bi-download me-2"></i>Tải ảnh tự động
+                                </button>
+                            }
+                            <button class="btn btn-primary btn-lg" id="addToCartBtn" data-product-id="@Model.ProductID" data-product-name="@Model.ProductName" data-price="@Model.Price">
+                                <i class="bi bi-cart-plus me-2"></i>Thêm vào giỏ hàng
+                            </button>
+                            <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                                <i class="bi bi-cart3 me-2"></i>Xem giỏ hàng
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Vui lòng <a asp-controller="Account" asp-action="Login" class="text-decoration-none">đăng nhập</a> để mua hàng.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Thêm vào giỏ hàng
+        document.getElementById('addToCartBtn')?.addEventListener('click', async function() {
+            const productId = this.getAttribute('data-product-id');
+            const productName = this.getAttribute('data-product-name');
+            const price = this.getAttribute('data-price');
+
+            const quantity = 1;
+            const salePrice = parseFloat(price.replace(/,/g, ''));
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+            try {
+                const formData = new FormData();
+                formData.append('productID', productId);
+                formData.append('quantity', quantity);
+                formData.append('salePrice', salePrice);
+                if (token) formData.append('__RequestVerificationToken', token);
+
+                const response = await fetch('/Cart/Add', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (result.code === 1) {
+                    showAlert(`Đã thêm "${productName}" vào giỏ hàng!`, 'success');
+                    await updateCartCount();
+                } else {
+                    showAlert('Có lỗi xảy ra: ' + result.message, 'error');
+                }
+            } catch (e) {
+                showAlert('Có lỗi xảy ra. Vui lòng thử lại.', 'error');
+            }
+        });
+
+        // Tải ảnh tự động từ Unsplash
+        async function autoFetchImage(productId) {
+            if (!confirm('Tải ảnh từ Internet? Có thể mất vài giây.')) return;
+
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Đang tải...';

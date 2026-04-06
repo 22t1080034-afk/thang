@@ -1,0 +1,141 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SV22T1080034.BusinessLayers;
+using SV22T1080034.DomainModels;
+using SV22T1080034.DomainModels.Catalog;
+using SV22T1080034.DomainModels.Sales;
+using SV22T1080034.Admin;
+using SV22T1080034.DomainModels.Common;
+using SV22T1080034.DomainModels;
+namespace SV22T1080034.Admin.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        // ===================================================================
+        // 1. MỞ TRANG LẬP ĐƠN HÀNG
+        // ===================================================================
+        public async Task<IActionResult> Create()
+        {
+            ViewBag.Title = "Lập đơn hàng";
+
+            // Gọi Service lấy dữ liệu thật
+            ViewBag.Customers = await CommonDataService.ListCustomersAsync("");
+            ViewBag.Provinces = await CommonDataService.ListProvincesAsync();
+
+            return View();
+        }
+
+        // ===================================================================
+        // 2. CÁC HÀM XỬ LÝ AJAX (TÌM KIẾM & GIỎ HÀNG)
+        // ===================================================================
+
+        // SỬA: Chuyển thành async Task vì hàm ListProductsAsync là bất đồng bộ
+        public async Task<IActionResult> SearchProduct(int page = 1, string keyword = "")
+        {
+            // SỬA: Khởi tạo Input chuẩn theo CatalogDataService của cậu
+            var input = new ProductSearchInput()
+            {
+                Page = page,
+                PageSize = 10,
+                SearchValue = keyword ?? ""
+            };
+
+            var data = await CatalogDataService.ListProductsAsync(input);
+
+            // Lưu ý: data lúc này là PagedResult<Product>. 
+            // Nếu giao diện SearchProduct.cshtml đang khai báo @model IEnumerable<...Product> 
+            // thì cậu phải truyền data.Data. Còn nếu View đã khai báo PagedResult thì truyền thẳng data.
+            return PartialView("SearchProduct", data.Data);
+        }
+
+        public IActionResult ShowCart()
+        {
+            var cart = ShoppingCartHelper.GetShoppingCart();
+            return PartialView("ShowCart", cart);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCartItem(int productId, int quantity, decimal salePrice)
+        {
+            if (quantity <= 0) return Json("Số lượng phải lớn hơn 0!");
+            if (salePrice < 0) return Json("Giá bán không hợp lệ!");
+
+            var product = await CatalogDataService.GetProductAsync(productId);
+            if (product == null) return Json("Mặt hàng không tồn tại!");
+
+            var item = new OrderDetailViewInfo()
+            {
+                ProductID = productId,
+                ProductName = product.ProductName,
+                Unit = product.Unit,
+                Photo = product.Photo ?? "images/no-image.png",
+                Quantity = quantity,
+                SalePrice = salePrice
+            };
+
+            ShoppingCartHelper.AddItemToCart(item);
+            return Json("");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteCartItem(int productId = 0)
+        {
+            ShoppingCartHelper.DeleteItemFromCart(productId);
+            return Json("");
+        }
+
+        [HttpPost]
+        public IActionResult ClearCartConfirmed()
+        {
+            ShoppingCartHelper.ClearCart();
+            return Json("");
+        }
+
+        // ===================================================================
+        // 3. CHỐT ĐƠN HÀNG (LƯU VÀO DATABASE)
+        // ===================================================================
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder(int customerID = 0, string deliveryProvince = "", string deliveryAddress = "")
+        {
+            var cart = ShoppingCartHelper.GetShoppingCart();
+            if (cart.Count == 0) return Json("Giỏ hàng của bạn đang trống!");
+            if (customerID <= 0 || string.IsNullOrWhiteSpace(deliveryProvince) || string.IsNullOrWhiteSpace(deliveryAddress))
+                return Json("Vui lòng nhập đầy đủ thông tin!");
+
+            int employeeId = 1;
+
+            var order = new Order()
+            {
+                CustomerID = customerID,
+                EmployeeID = employeeId,
+                OrderTime = DateTime.Now,
+                DeliveryProvince = deliveryProvince,
+                DeliveryAddress = deliveryAddress,
+                Status = OrderStatusEnum.New // Dùng thẳng Enum theo chuẩn luôn
+            };
+
+            int orderID = await SalesDataService.AddOrderAsync(order);
+
+            if (orderID > 0)
+            {
+                foreach (var item in cart)
+                {
+                    // SỬA: Đổi thành AddDetailAsync cho chuẩn với SalesDataService của cậu
+                    await SalesDataService.AddDetailAsync(new OrderDetail()
+                    {
+                        OrderID = orderID,
+                        ProductID = item.ProductID,
+                        Quantity = item.Quantity,
+                        SalePrice = item.SalePrice
+                    });
+                }
+
+                ShoppingCartHelper.ClearCart();
+                return Json(orderID.ToString());
+            }
+
+            return Json("Lập đơn hàng thất bại. Vui lòng thử lại sau!");
+        }
+    }
+}

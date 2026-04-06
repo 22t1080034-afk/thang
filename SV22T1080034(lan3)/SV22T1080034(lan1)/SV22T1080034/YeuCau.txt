@@ -1,0 +1,13 @@
+dành cho khách hàng (Customer) với các chức năng chính sau:
+1.   Đăng ký tài khoản mới.
+2.  Đăng nhập vào hệ thống.
+3.  Quản lý thông tin cá nhân và mật khẩu.
+4.  Xem, tìm kiếm danh mục mặt hàng theo loại hàng, tên hàng, khoảng giá.
+5. Xem thông tin chi tiết của mặt hàng.
+6. Đưa hàng vào giỏ hàng
+7.  Quản lý giỏ hàng
+8. Đặt mua hàng
+9. Theo dõi trạng thái xử lý của đơn hàng.
+10. Theo dõi lịch sử mua hàng của cá nhân
+
+(Lưu ý: Không được sử dụng theme AdminLTE)

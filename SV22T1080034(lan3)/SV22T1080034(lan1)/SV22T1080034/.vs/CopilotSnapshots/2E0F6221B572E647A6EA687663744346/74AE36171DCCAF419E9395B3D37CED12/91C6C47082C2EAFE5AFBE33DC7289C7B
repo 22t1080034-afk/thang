@@ -1,0 +1,140 @@
+﻿using System.Data;
+using Dapper;
+using Microsoft.Data.SqlClient;
+using SV22T1080034.DataLayers.Interfaces;
+using SV22T1080034.DomainModels.Sales;
+using SV22T1080034.DomainModels.Common;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace SV22T1080034.DataLayers.SQLServer
+{
+    public class OrderRepository : BaseRepository, IOrderRepository
+    {
+        public OrderRepository(string connectionString) : base(connectionString) { }
+
+        public async Task<int> AddAsync(Order data)
+        {
+            const string sql = @"INSERT INTO Orders (CustomerID, OrderDate, ShipAddress, ShipPhone, ShipName, ShipperID, Status)
+VALUES (@CustomerID, @OrderTime, @DeliveryAddress, @ShipPhone, @ShipName, @ShipperID, @Status);
+SELECT CAST(SCOPE_IDENTITY() as int);";
+            using var cn = GetConnection();
+            await cn.OpenAsync();
+            // Pass the Order object directly; parameter names in SQL match Order property names (OrderTime, DeliveryAddress)
+            var id = await cn.QuerySingleAsync<int>(sql, data);
+            return id;
+        }
+
+        public async Task<bool> DeleteAsync(int orderID)
+        {
+            using var cn = GetConnection();
+            await cn.OpenAsync();
+            await cn.ExecuteAsync("DELETE FROM OrderDetails WHERE OrderID = @orderID", new { orderID });
+            var affected = await cn.ExecuteAsync("DELETE FROM Orders WHERE OrderID = @orderID", new { orderID });
+            return affected > 0;
+        }
+
+        public async Task<OrderViewInfo?> GetAsync(int orderID)
+        {
+            const string sql = "SELECT OrderID, CustomerID, OrderDate AS OrderTime, ShipAddress AS DeliveryAddress, ShipPhone, ShipName, ShipperID, Status FROM Orders WHERE OrderID = @orderID";
+            using var cn = GetConnection();
+            await cn.OpenAsync();
+            var item = await cn.QueryFirstOrDefaultAsync<OrderViewInfo>(sql, new { orderID });
+            return item;
+        }
+
+        public async Task<List<OrderDetailViewInfo>> ListDetailsAsync(int orderID)
+        {
+            // Select UnitPrice AS SalePrice so it maps to OrderDetailViewInfo.SalePrice
+            const string sql = "SELECT OrderID, ProductID, UnitPrice AS SalePrice, Quantity FROM OrderDetails WHERE OrderID = @orderID";
+            using var cn = GetConnection();
+            await cn.OpenAsync();
+            var items = (await cn.QueryAsync<OrderDetailViewInfo>(sql, new { orderID })).ToList();
+            return items;
+        }
+
+        public async Task<PagedResult<OrderSearchInfo>> ListAsync(OrderSearchInput input)
+        {
+            var whereClauses = new List<string>();
+            var parameters = new DynamicParameters();
+            if (!string.IsNullOrWhiteSpace(input.SearchValue))
+            {
+                whereClauses.Add("(CustomerName LIKE @q OR ShipName LIKE @q)");
+                parameters.Add("q", "%" + input.SearchValue + "%");
+            }
+            var where = whereClauses.Count > 0 ? "WHERE " + string.Join(" AND ", whereClauses) : string.Empty;
+
+            string sql = $"SELECT OrderID, CustomerID, OrderDate AS OrderTime, ShipAddress AS DeliveryAddress, ShipPhone, ShipName, ShipperID, Status FROM Orders {where} ORDER BY OrderID";
+            if (input.PageSize > 0)
+            {
+                sql += " OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+                parameters.Add("Offset", input.Offset);
+                parameters.Add("PageSize", input.PageSize);
+            }
+
+            using var cn = GetConnection();
+            await cn.OpenAsync();
+            var items = (await cn.QueryAsync<OrderSearchInfo>(sql, parameters)).ToList();
+
+            // Get total count for paging
+            var countSql = $"SELECT COUNT(*) FROM Orders {where}";
+            var totalCount = await cn.QuerySingleAsync<int>(countSql, parameters);
+
+            return new PagedResult<OrderSearchInfo>
+            {
+                DataItems = items,
+                RowCount = totalCount,
+                PageSize = input.PageSize,
+                Page = input.Page
+            };
+        }
+
+        public async Task<OrderDetailViewInfo?> GetDetailAsync(int orderID, int productID)
+        {
+            const string sql = "SELECT OrderID, ProductID, UnitPrice AS SalePrice, Quantity FROM OrderDetails WHERE OrderID = @orderID AND ProductID = @productID";
+            using var cn = GetConnection();
+            await cn.OpenAsync();
+            var item = await cn.QueryFirstOrDefaultAsync<OrderDetailViewInfo>(sql, new { orderID, productID });
+            return item;
+        }
+
+        public async Task<bool> AddDetailAsync(OrderDetail data)
+        {
+            const string sql = @"INSERT INTO OrderDetails (OrderID, ProductID, UnitPrice, Quantity)
+VALUES (@OrderID, @ProductID, @SalePrice, @Quantity);";
+            using var cn = GetConnection();
+            await cn.OpenAsync();
+            // Map SalePrice parameter from OrderDetail.SalePrice
+            var affected = await cn.ExecuteAsync(sql, new { data.OrderID, data.ProductID, SalePrice = data.SalePrice, data.Quantity });
+            return affected > 0;
+        }
+
+        public async Task<bool> UpdateAsync(Order data)
+        {
+            const string sql = @"UPDATE Orders SET CustomerID = @CustomerID, OrderDate = @OrderTime, ShipAddress = @DeliveryAddress, ShipPhone = @ShipPhone, ShipName = @ShipName, ShipperID = @ShipperID, Status = @Status WHERE OrderID = @OrderID";
+            using var cn = GetConnection();
+            await cn.OpenAsync();
+            var affected = await cn.ExecuteAsync(sql, data);
+            return affected > 0;
+        }
+
+        public async Task<bool> UpdateDetailAsync(OrderDetail data)
+        {
+            const string sql = "UPDATE OrderDetails SET UnitPrice = @SalePrice, Quantity = @Quantity WHERE OrderID = @OrderID AND ProductID = @ProductID";
+            using var cn = GetConnection();
+            await cn.OpenAsync();
+            var affected = await cn.ExecuteAsync(sql, new { SalePrice = data.SalePrice, data.Quantity, data.OrderID, data.ProductID });
+            return affected > 0;
+        }
+
+        public async Task<bool> DeleteDetailAsync(int orderID, int productID)
+        {
+            const string sql = "DELETE FROM OrderDetails WHERE OrderID = @orderID AND ProductID = @productID";
+            using var cn = GetConnection();
+            await cn.OpenAsync();
+            var affected = await cn.ExecuteAsync(sql, new { orderID, productID });
+            return affected > 0;
+        }
+    }
+}

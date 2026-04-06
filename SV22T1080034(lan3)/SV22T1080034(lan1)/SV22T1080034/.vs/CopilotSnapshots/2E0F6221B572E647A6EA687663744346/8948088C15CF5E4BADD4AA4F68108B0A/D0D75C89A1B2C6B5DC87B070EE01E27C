@@ -1,0 +1,67 @@
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// =======================================================
+// 1. KHAI BÁO DỊCH VỤ (SERVICES)
+// =======================================================
+
+// Thêm dịch vụ MVC
+builder.Services.AddControllersWithViews();
+
+// ---> THÊM MỚI: Cấu hình Session để lưu trạng thái tìm kiếm phân trang <---
+builder.Services.AddSession(option =>
+{
+    option.IdleTimeout = TimeSpan.FromMinutes(60);  
+    option.Cookie.HttpOnly = true;
+    option.Cookie.IsEssential = true;
+});
+
+// Cấu hình Cookie Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.Cookie.Name = "AuthenticationCookie";
+        option.LoginPath = "/Account/Login";
+        option.AccessDeniedPath = "/Account/AccessDenied";
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    });
+
+var app = builder.Build();
+
+// =======================================================
+// ---> THÊM MỚI: Bơm chuỗi kết nối vào DataLayer <---
+// =======================================================
+string connectionString = builder.Configuration.GetConnectionString("LiteCommerceDB");
+// Lưu ý: Thay "SV22T1080034.BusinessLayers.Configuration" bằng đúng tên class cấu hình của bạn
+SV22T1080034.BusinessLayers.Configuration.Initialize(connectionString);
+
+
+// =======================================================
+// 2. CẤU HÌNH LUỒNG XỬ LÝ (PIPELINE)
+// =======================================================
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+// ---> THÊM MỚI: Bật Session (Phải đặt TRƯỚC Authentication) <---
+app.UseSession();
+
+// --- BẮT BUỘC PHẢI CÓ VÀ ĐÚNG THỨ TỰ ---
+app.UseAuthentication();
+app.UseAuthorization();
+// ---------------------------------------
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();

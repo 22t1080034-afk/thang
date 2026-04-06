@@ -1,0 +1,35 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow">
+        <form action="~/Order/Reject/@ViewBag.OrderID" method="post">
+            @Html.AntiForgeryToken()
+            <div class="modal-header bg-gradient bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-x-circle me-2"></i>Từ chối đơn hàng #@ViewBag.OrderID
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3">
+                    <i class="bi bi-x-circle-fill text-danger display-4"></i>
+                </div>
+                <h5 class="text-danger">Xác nhận từ chối đơn hàng</h5>
+                <p class="mb-0">
+                    Bạn có chắc chắn muốn <strong>từ chối</strong> đơn hàng này?
+                    <br><small class="text-muted">Đơn sẽ chuyển sang trạng thái <span class="badge bg-danger">Từ chối</span></small>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i>Hủy bỏ
+                </button>
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-check me-1"></i>Xác nhận từ chối
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+@model List<SV22T1080034.Shop.Models.CartItem>
+
+@{
+    decimal subtotal = Model?.Sum(c => c.Total) ?? 0;
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="text-center py-4">
+        <i class="bi bi-cart-x fs-1 text-muted"></i>
+        <p class="mt-2 mb-0 text-muted">Giỏ hàng trống</p>
+    </div>
+}
+else
+{
+    <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+        <table class="table table-sm mb-0">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th class="text-center">SL</th>
+                    <th class="text-end">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="@(string.IsNullOrEmpty(item.Photo) ? "/images/products/nophoto.png" : $"/images/products/{item.Photo}")"
+                                     style="width: 40px; height: 40px; object-fit: cover;"
+                                     class="rounded me-2" alt="@item.ProductName">
+                                <div class="small">
+                                    <div class="text-truncate" style="max-width: 150px;">@item.ProductName</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">@item.Quantity</td>
+                        <td class="text-end text-nowrap">@item.Total.ToString("N0") ₫</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2" class="text-end">Tổng cộng:</th>
+                    <th class="text-end text-danger">@subtotal.ToString("N0") ₫</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="mt-3 d-grid gap-2">
+        <a asp-controller="Cart" asp-action="Index" class="btn btn-primary btn-sm">
+            <i class="bi bi-eye me-2"></i>Xem giỏ hàng
+        </a>
+        <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-credit-card me-2"></i>Thanh toán
+        </a>
+    </div>
+}
